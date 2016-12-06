@@ -26,12 +26,15 @@ shinyServer(function(input, output, session) {
   GYA_Icon <- makeIcon("GYA.png",25,25)
   
   dis_sport2 = dis_sport[, c('regno','name','area_of_benefit',
-                             'District', 'address1','address2',
-                             'address3','address4','address5',
-                             'phone','web', 'Longitude','Latitude')]
+                             'District', 'address','phone',
+                             'web','Longitude','Latitude')]
   
   # render the table (with row names)
-  output$ds_dt = DT::renderDataTable(dis_sport2, server = TRUE)
+  output$ds_dt = DT::renderDataTable(
+    DT::datatable(
+      dis_sport2, options = list(
+        lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
+        pageLength = 5, server = TRUE, filter = 'top')))
   
   observeEvent(input$hideshow, {
     # every time the button is pressed, alternate between hiding and showing the plot

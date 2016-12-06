@@ -21,7 +21,9 @@ shinyUI(fluidPage(
   actionButton("hideshow", "Hide/show table"),
   
   fluidRow(
+    column(10,offset = 1, 
         leafletOutput("mymap")
+    )
   ),
   
 
