@@ -29,12 +29,15 @@ shinyServer(function(input, output, session) {
                              'District', 'address','phone',
                              'web','Longitude','Latitude')]
   
-  # render the table (with row names)
   output$ds_dt = DT::renderDataTable(
     DT::datatable(
-      dis_sport2, options = list(
+      dis_sport2, filter = 'top',
+      colnames = c('Registration Number'='regno'),
+      options = list(
         lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
-        pageLength = 5, server = TRUE, filter = 'top')))
+        pageLength = 5, server = TRUE, 
+        autoWidth = TRUE,
+        columnDefs = list(list(visible=FALSE, targets=list(8, 9))))))
   
   observeEvent(input$hideshow, {
     # every time the button is pressed, alternate between hiding and showing the plot
