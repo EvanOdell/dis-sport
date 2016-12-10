@@ -14,9 +14,6 @@ library(DT)
 library(leaflet)
 library(shinyjs)
 
-
-
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
  
   dis_sport<- readRDS("dis_sport.rds")
