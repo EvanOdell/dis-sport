@@ -14,6 +14,9 @@ library(DT)
 library(leaflet)
 library(shinyjs)
 
+
+
+# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
  
   dis_sport<- readRDS("dis_sport.rds")
@@ -22,19 +25,61 @@ shinyServer(function(input, output, session) {
   
   GYA_Icon <- makeIcon("GYA.png",25,25)
   
-  dis_sport2 = dis_sport[, c('regno','name','area_of_benefit',
-                             'District', 'address','phone',
-                             'web','Longitude','Latitude')]
+  dis_sport2 = dis_sport[, c('regno',#1
+                             'main',
+                             'name',
+                             'area_of_benefit',#4
+                             'district',
+                             'region',
+                             'address',#7
+                             'phone',
+                             'web',
+                             'longitude',
+                             'latitude',
+                             'any_disability',#11
+                             'any_sport',
+                             'both_cats',
+                             'disability',
+                             'people with disabilities',
+                             'amateur sport',#16       
+                             'recreation')]
   
   output$ds_dt = DT::renderDataTable(
     DT::datatable(
-      dis_sport2, filter = 'top',
-      colnames = c('Registration Number'='regno'),
+      dis_sport2, 
+      filter = 'top',
+      extensions = c('FixedHeader','Buttons'),
+      colnames = c('Registration Number'='regno',
+                   'Primary Charity' = 'main',
+                   'Name' ='name',
+                   'Area of Benefit' ='area_of_benefit',
+                   'District' ='district',
+                   'Region' ='region',
+                   'Address' ='address',
+                   'Phone' ='phone',
+                   'Web' ='web',
+                   'Any Disability'='any_disability',
+                   'Any Sport' ='any_sport',
+                   'Sport and Disability'='both_cats',
+                   'Disability' ='disability',
+                   'People with Disabilities'='people with disabilities',
+                   'Amateur Sport'='amateur sport',          
+                   'Recreation' ='recreation'),
+      
       options = list(
         lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
-        pageLength = 5, server = TRUE, 
+        pageLength = 5, 
+        fixedHeader = TRUE,
+        server = TRUE, 
         autoWidth = TRUE,
-        columnDefs = list(list(visible=FALSE, targets=list(8, 9))))))
+        columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18))),
+        dom = 'Blfrtip',
+        buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,15,16,17,18),visible=FALSE)),
+                    list(list(extend = 'collection',
+                                buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
+                                text = 'Download Data'
+                              )))
+        )))
   
   observeEvent(input$hideshow, {
     # every time the button is pressed, alternate between hiding and showing the plot
@@ -51,8 +96,8 @@ shinyServer(function(input, output, session) {
       addTiles() %>%
       setView(lng = -2.547855, lat = 54.00366, zoom = 5)%>%
       addMarkers(data=GYA, ~Longitude, ~Latitude,
-                 popup=~as.character(paste("Type:", GYA$type, "<br>",
-                                           "Name:", GYA$name)),
+                 popup=~as.character(paste("Get Yourself Active Partner", "<br>",
+                                           "Name: ", GYA$name)),
                  icon=GYA_Icon,
                  group="GYA")
   })
@@ -62,8 +107,9 @@ shinyServer(function(input, output, session) {
     leafletProxy("mymap", data = filteredData()) %>%
       clearGroup(group="charities") %>%
       #removeMarkerCluster(layerId="charities") %>%
-      addMarkers(~Longitude, ~Latitude,
-                 popup=~as.character(name),
+      addMarkers(~longitude, ~latitude,
+                 popup=~as.character(paste("Name:", name, "<br>",
+                                           "")),
                  group="charities",
                  clusterOptions = markerClusterOptions())
   })
