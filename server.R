@@ -1,12 +1,3 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
 
 
 library(shiny)
@@ -15,8 +6,6 @@ library(leaflet)
 library(shinyjs)
 
 
-
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
  
   dis_sport<- readRDS("dis_sport.rds")
@@ -25,30 +14,41 @@ shinyServer(function(input, output, session) {
   
   GYA_Icon <- makeIcon("GYA.png",25,25)
   
-  dis_sport2 = dis_sport[, c('regno',#1
+  dis_sport2 = dis_sport[, c('regno',
                              'main',
                              'name',
-                             'area_of_benefit',#4
+                             'area_of_benefit',
                              'district',
                              'region',
-                             'address',#7
+                             'address',
                              'phone',
                              'web',
                              'longitude',
                              'latitude',
-                             'any_disability',#11
+                             'any_disability',
                              'any_sport',
                              'both_cats',
                              'disability',
-                             'people with disabilities',
-                             'amateur sport',#16       
-                             'recreation')]
+                             'people_with_disabilities',
+                             'amateur_sport',     
+                             'recreation',
+                             'category_1',
+                             'category_2',
+                             'category_3',
+                             'category_4',
+                             'category_type')]
   
-  output$ds_dt = DT::renderDataTable(
-    DT::datatable(
-      dis_sport2, 
-      filter = 'top',
-      extensions = c('FixedHeader','Buttons'),
+
+  selectedDataSet<-reactive({
+    # Get a subset of the income data which is contingent on the input variables
+    dataSet<-dis_sport2[dis_sport2$category_type==input$category_input]
+  })
+  
+  output$ds_dt = renderDataTable(
+    datatable({
+      dataSet<-selectedDataSet()
+      filter = 'top'
+      extensions = c('FixedHeader','Buttons')
       colnames = c('Registration Number'='regno',
                    'Primary Charity' = 'main',
                    'Name' ='name',
@@ -62,35 +62,36 @@ shinyServer(function(input, output, session) {
                    'Any Sport' ='any_sport',
                    'Sport and Disability'='both_cats',
                    'Disability' ='disability',
-                   'People with Disabilities'='people with disabilities',
-                   'Amateur Sport'='amateur sport',          
-                   'Recreation' ='recreation'),
-      
-      options = list(
-        lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
-        pageLength = 5, 
-        fixedHeader = TRUE,
-        server = TRUE, 
-        autoWidth = TRUE,
-        columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18))),
-        dom = 'Blfrtip',
-        buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,15,16,17,18),visible=FALSE)),
-                    list(list(extend = 'collection',
-                                buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
-                                text = 'Download Data'
-                              )))
-        )))
+                   'People with Disabilities'='people_with_disabilities',
+                   'Amateur Sport'='amateur_sport',          
+                   'Recreation' ='recreation')
+    },
+    
+    options = list(
+      lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
+      pageLength = 5, 
+      fixedHeader = TRUE,
+      server = TRUE, 
+      autoWidth = TRUE,
+      columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18,19,20,21,22,23))),
+      dom = 'Blfrtip',
+      buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,15,16,17,18),visible=FALSE)),
+                  list(list(extend = 'collection',
+                            buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
+                            text = 'Download Data'
+                  )))
+    )))
   
-  observeEvent(input$hideshow, {
-    # every time the button is pressed, alternate between hiding and showing the plot
-    toggle("ds_dt")
-  })
+  
+  
   
   filteredData <- reactive({
     s2 = input$ds_dt_rows_all
     dis_sport2[s2, , drop = FALSE]
   })
 
+
+  
   output$mymap <- renderLeaflet({
     leaflet() %>%
       addTiles() %>%
@@ -103,16 +104,21 @@ shinyServer(function(input, output, session) {
   })
   
   observe({
-    
     leafletProxy("mymap", data = filteredData()) %>%
       clearGroup(group="charities") %>%
       #removeMarkerCluster(layerId="charities") %>%
       addMarkers(~longitude, ~latitude,
-                 popup=~as.character(paste("Name:", name, "<br>",
-                                           "")),
+                 popup=~as.character(paste("Name: ", name, "<br>",
+                                           "Area of Focus 1: ", category_1,"<br>",
+                                           "Area of Focus 2: ",category_2, "<br>",
+                                           "Area of Focus 3: ",category_3, "<br>",
+                                           "Area of Focus 4: ",category_4)),
                  group="charities",
                  clusterOptions = markerClusterOptions())
   })
   
 
 })
+
+
+
