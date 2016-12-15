@@ -1,12 +1,3 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
 
 
 library(shiny)
@@ -15,8 +6,6 @@ library(leaflet)
 library(shinyjs)
 
 
-
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
  
   dis_sport<- readRDS("dis_sport.rds")
@@ -25,23 +14,23 @@ shinyServer(function(input, output, session) {
   
   GYA_Icon <- makeIcon("GYA.png",25,25)
   
-  dis_sport2 = dis_sport[, c('regno',#1
+  dis_sport2 = dis_sport[, c('regno',
                              'main',
                              'name',
-                             'area_of_benefit',#4
+                             'area_of_benefit',
                              'district',
                              'region',
-                             'address',#7
+                             'address',
                              'phone',
                              'web',
                              'longitude',
                              'latitude',
-                             'any_disability',#11
+                             'any_disability',
                              'any_sport',
                              'both_cats',
                              'disability',
                              'people with disabilities',
-                             'amateur sport',#16       
+                             'amateur sport',     
                              'recreation')]
   
   output$ds_dt = DT::renderDataTable(
@@ -91,6 +80,8 @@ shinyServer(function(input, output, session) {
     dis_sport2[s2, , drop = FALSE]
   })
 
+
+  
   output$mymap <- renderLeaflet({
     leaflet() %>%
       addTiles() %>%
@@ -116,3 +107,6 @@ shinyServer(function(input, output, session) {
   
 
 })
+
+
+

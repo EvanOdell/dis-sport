@@ -1,0 +1,11 @@
+name: dis-sport
+title: dis-sport
+account: evanodell
+server: shinyapps.io
+appId: 142577
+bundleId: 651500
+url: https://evanodell.shinyapps.io/dis-sport/
+when: 1481817967.0243
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|PrepWork.R|README.md
