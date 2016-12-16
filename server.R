@@ -1,22 +1,9 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
-
 
 library(shiny)
 library(DT)
 library(leaflet)
 library(shinyjs)
 
-
-
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
  
   dis_sport<- readRDS("dis_sport.rds")
@@ -87,10 +74,12 @@ shinyServer(function(input, output, session) {
   })
   
   filteredData <- reactive({
+
     s2 = input$ds_dt_rows_all
     dis_sport2[s2, , drop = FALSE]
+    
   })
-
+  
   output$mymap <- renderLeaflet({
     leaflet() %>%
       addTiles() %>%
