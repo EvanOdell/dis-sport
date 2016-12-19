@@ -7,7 +7,7 @@ library(shinyjs)
 
 
 shinyServer(function(input, output, session) {
- 
+  
   dis_sport<- readRDS("dis_sport.rds")
   
   GYA <- readRDS("GYA.rds")
@@ -29,12 +29,17 @@ shinyServer(function(input, output, session) {
                              'any_sport',
                              'both_cats',
                              'disability',
-                             'people with disabilities',
-                             'amateur sport',     
-                             'recreation')]
+                             'people_with_disabilities',
+                             'amateur_sport',      
+                             'recreation',
+                             'category_1',
+                             'category_2',
+                             'category_3',
+                             'category_4',
+                             'category_type')]
   
-  output$ds_dt = DT::renderDataTable(
-    DT::datatable(
+  output$ds_dt = renderDataTable(
+    datatable(
       dis_sport2, 
       filter = 'top',
       extensions = c('FixedHeader','Buttons'),
@@ -51,8 +56,8 @@ shinyServer(function(input, output, session) {
                    'Any Sport' ='any_sport',
                    'Sport and Disability'='both_cats',
                    'Disability' ='disability',
-                   'People with Disabilities'='people with disabilities',
-                   'Amateur Sport'='amateur sport',          
+                   'People with Disabilities'='people_with_disabilities',
+                   'Amateur Sport'='amateur_sport',          
                    'Recreation' ='recreation'),
       
       options = list(
@@ -61,26 +66,24 @@ shinyServer(function(input, output, session) {
         fixedHeader = TRUE,
         server = TRUE, 
         autoWidth = TRUE,
-        columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18))),
+        columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18,19,20,21,22,23))),
         dom = 'Blfrtip',
         buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,15,16,17,18),visible=FALSE)),
                     list(list(extend = 'collection',
-                                buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
-                                text = 'Download Data'
-                              )))
-        )))
+                              buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
+                              text = 'Download Data'
+                    )))
+      )))
   
-  observeEvent(input$hideshow, {
-    # every time the button is pressed, alternate between hiding and showing the plot
-    toggle("ds_dt")
-  })
+  
+  
   
   filteredData <- reactive({
     s2 = input$ds_dt_rows_all
     dis_sport2[s2, , drop = FALSE]
   })
-
-
+  
+  
   
   output$mymap <- renderLeaflet({
     leaflet() %>%
@@ -94,18 +97,20 @@ shinyServer(function(input, output, session) {
   })
   
   observe({
-    
     leafletProxy("mymap", data = filteredData()) %>%
       clearGroup(group="charities") %>%
       #removeMarkerCluster(layerId="charities") %>%
       addMarkers(~longitude, ~latitude,
-                 popup=~as.character(paste("Name:", name, "<br>",
-                                           "")),
+                 popup=~as.character(paste("Name: ", name, "<br>",
+                                           "Area of Focus 1: ", category_1,"<br>",
+                                           "Area of Focus 2: ",category_2, "<br>",
+                                           "Area of Focus 3: ",category_3, "<br>",
+                                           "Area of Focus 4: ",category_4)),
                  group="charities",
                  clusterOptions = markerClusterOptions())
   })
   
-
+  
 })
 
 

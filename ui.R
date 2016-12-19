@@ -4,24 +4,27 @@ library(shiny)
 library(DT)
 library(shinyjs)
 library(leaflet)
+library(shinydashboard)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  useShinyjs(),
-  
-  title = 'Disability Sport Charities',
-  
-  actionButton("hideshow", "Hide/show table"),
-  
-  fluidRow(
-    column(10, offset=1,
-           leafletOutput("mymap")
-    ),
 
+header<-dashboardHeader(title='Disability Sport Charities')
+
+body<-dashboardBody(
   fluidRow(
-    column(10, offset=1, 
-           DT::dataTableOutput('ds_dt'))
-  )
-  )
-  
-))
+    
+    column(width = 10, offset=1,
+           box(width = NULL, solidHeader = TRUE,
+               leafletOutput("mymap", height=400)
+           ),
+           box(width=NULL,
+               dataTableOutput("ds_dt")
+           )
+    )))
+
+
+dashboardPage(
+  header,
+  dashboardSidebar(disable = TRUE),
+  skin = "purple",
+  body
+)
