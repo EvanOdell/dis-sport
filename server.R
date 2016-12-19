@@ -13,38 +13,13 @@ shinyServer(function(input, output, session) {
   
   GYA_Icon <- makeIcon("./images/GYA.PNG",25,25)
   
-  pal <- colorFactor(c("purple", "red", "yellow"), domain = c("Disability","Sport", "Disability and Sport"))
+  #pal <- colorFactor(c("purple", "red", "yellow"), domain = c("Disability","Sport", "Disability and Sport"))
   
   typeIcons <- iconList(
     Disability = makeIcon("./images/disability.PNG", "disability.PNG",30,30),
     "Disability and Sport" = makeIcon("./images/disSport.PNG", "disSport.PNG",30,30),
     Sport = makeIcon("./images/sport.png", "sport.png",30,30)
   )
-  
-  
-  dis_sport2 = dis_sport[, c('regno',
-                             'main',
-                             'name',
-                             'area_of_benefit',
-                             'district',
-                             'region',
-                             'address',
-                             'phone',
-                             'web',
-                             'longitude',
-                             'latitude',
-                             'any_disability',
-                             'any_sport',
-                             'both_cats',
-                             'disability',
-                             'people_with_disabilities',
-                             'amateur_sport',      
-                             'recreation',
-                             'category_1',
-                             'category_2',
-                             'category_3',
-                             'category_4',
-                             'category_type')]
   
   
   output$mymap <- renderLeaflet({
@@ -63,18 +38,17 @@ shinyServer(function(input, output, session) {
   getDataSet<-reactive({
 
     if (is.null(input$mymap_bounds))
-      return(dis_sport2[FALSE,])
+      return(dis_sport[FALSE,])
     
     bounds <- input$mymap_bounds
     latRng <- range(bounds$north, bounds$south)
     lngRng <- range(bounds$east, bounds$west)
     
-    dataSet<-dis_sport2[dis_sport2$category_type == input$category_input
-                        & dis_sport2$latitude >= latRng[1] 
-                        & dis_sport2$latitude <= latRng[2]
-                        & dis_sport2$longitude >= lngRng[1] 
-                        & dis_sport2$longitude <= lngRng[2],
-                        drop=FALSE]
+    dataSet<-dis_sport[dis_sport$category_type == input$category_input
+                        & dis_sport$latitude >= latRng[1] 
+                        & dis_sport$latitude <= latRng[2]
+                        & dis_sport$longitude >= lngRng[1] 
+                        & dis_sport$longitude <= lngRng[2],]
 
   })
   
@@ -117,9 +91,6 @@ shinyServer(function(input, output, session) {
                               text = 'Download Data'
                     )))
       )))
-  
- 
-  
   
   observe({
     
