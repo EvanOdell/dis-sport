@@ -29,7 +29,6 @@ shinyServer(function(input, output, session) {
                              'any_sport',
                              'both_cats',
                              'disability',
-<<<<<<< HEAD
                              'people_with_disabilities',
                              'amateur_sport',     
                              'recreation',
@@ -38,17 +37,6 @@ shinyServer(function(input, output, session) {
                              'category_3',
                              'category_4',
                              'category_type')]
-  
-
-  selectedDataSet<-reactive({
-    # Get a subset of the income data which is contingent on the input variables
-    dataSet<-dis_sport2[dis_sport2$category_type==input$category_input]
-  })
-=======
-                             'people with disabilities',
-                             'amateur sport',     
-                             'recreation')]
->>>>>>> 33528648879b6c3a7a6d00ffd83775aee2771811
   
   output$ds_dt = renderDataTable(
     datatable({
