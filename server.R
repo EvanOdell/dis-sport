@@ -30,7 +30,7 @@ shinyServer(function(input, output, session) {
                              'both_cats',
                              'disability',
                              'people_with_disabilities',
-                             'amateur_sport',     
+                             'amateur_sport',      
                              'recreation',
                              'category_1',
                              'category_2',
@@ -39,10 +39,10 @@ shinyServer(function(input, output, session) {
                              'category_type')]
   
   output$ds_dt = renderDataTable(
-    datatable({
-      dataSet<-selectedDataSet()
-      filter = 'top'
-      extensions = c('FixedHeader','Buttons')
+    datatable(
+      dis_sport2, 
+      filter = 'top',
+      extensions = c('FixedHeader','Buttons'),
       colnames = c('Registration Number'='regno',
                    'Primary Charity' = 'main',
                    'Name' ='name',
@@ -58,8 +58,7 @@ shinyServer(function(input, output, session) {
                    'Disability' ='disability',
                    'People with Disabilities'='people_with_disabilities',
                    'Amateur Sport'='amateur_sport',          
-                   'Recreation' ='recreation')
-    },
+                   'Recreation' ='recreation'),
     
     options = list(
       lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),

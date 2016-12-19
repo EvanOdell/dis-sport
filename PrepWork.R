@@ -46,3 +46,36 @@ dis_sport$main[dis_sport$main == "1"] <- TRUE
 dis_sport$main <- as.factor(dis_sport$main)
 summary(dis_sport$main)
 
+
+
+dis_sport$category_1 <- as.factor(dis_sport$category_1)
+
+dis_sport$category_2 <- as.factor(dis_sport$category_2)
+
+dis_sport$category_3 <- as.factor(dis_sport$category_3)
+
+dis_sport$category_4 <- as.factor(dis_sport$category_4)
+
+dis_sport$disability <- as.factor(dis_sport$disability)
+
+dis_sport$people_with_disabilities <- as.factor(dis_sport$people_with_disabilities)
+
+dis_sport$amateur_sport <- as.factor(dis_sport$amateur_sport)
+
+dis_sport$recreation <- as.factor(dis_sport$recreation)
+
+dis_sport$any_disability <- as.factor(dis_sport$any_disability)
+
+dis_sport$any_sport <- as.factor(dis_sport$any_sport)
+
+dis_sport$both_cats <- as.factor(dis_sport$both_cats)
+
+dis_sport$country <- as.factor(dis_sport$country)
+
+dis_sport$main <- as.factor(dis_sport$main)
+
+
+
+
+summary(dis_sport)
+saveRDS(dis_sport, "dis_sport.rds")
