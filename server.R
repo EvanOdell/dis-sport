@@ -10,7 +10,8 @@ shinyServer(function(input, output, session) {
   GYA <- readRDS("GYA.rds")
   
   GYA_Icon <- makeIcon("./images/GYA.PNG",25,25)
-    typeIcons <- iconList(
+  
+  typeIcons <- iconList(
     Disability = makeIcon("./images/disability.PNG", "disability.PNG",30,30),
     "Disability and Sport" = makeIcon("./images/disSport.PNG", "disSport.PNG",30,30),
     Sport = makeIcon("./images/sport.png", "sport.png",30,30)
@@ -27,8 +28,6 @@ shinyServer(function(input, output, session) {
                  icon=GYA_Icon,
                  group="GYA")
   })
-  
-  
   
   getDataSet<-reactive({
 
@@ -47,8 +46,6 @@ shinyServer(function(input, output, session) {
 
   })
   
-  
-
   output$ds_dt = renderDataTable(datatable({
       dataSet<-getDataSet()
       dataSet
@@ -111,6 +108,5 @@ shinyServer(function(input, output, session) {
                  group="charities",
                  clusterOptions = markerClusterOptions())
   })
-  
   
 })

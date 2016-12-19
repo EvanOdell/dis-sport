@@ -1,5 +1,4 @@
 
-
 library(shiny)
 library(DT)
 library(leaflet)
@@ -24,12 +23,10 @@ body<-dashboardBody(
                                          "Disability"="Disability",
                                          "Sport"="Sport"),
                             selected = "Disability and Sport")
-               
-           )
+      )
     )
   )
 )
-
 
 dashboardPage(
   header,
