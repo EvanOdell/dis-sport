@@ -2,10 +2,8 @@
 
 library(shiny)
 library(DT)
-library(shinyjs)
 library(leaflet)
 library(shinydashboard)
-
 
 header<-dashboardHeader(title='Disability Sport Charities')
 
