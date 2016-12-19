@@ -105,7 +105,7 @@ shinyServer(function(input, output, session) {
                                            "Area of Focus 2: ", category_2, "<br>",
                                            "Area of Focus 3: ", category_3, "<br>",
                                            "Area of Focus 4: ", category_4, "<br>",
-                                           "<strong>Contact:  </strong>",
+                                           "<strong>Contact:  </strong>", "<br>",
                                            "Address: ", address,"<br>",
                                            "Phone: ", phone,"<br>",
                                            "Web: ", web)),
