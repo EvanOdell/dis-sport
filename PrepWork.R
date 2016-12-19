@@ -79,3 +79,6 @@ dis_sport$main <- as.factor(dis_sport$main)
 
 summary(dis_sport)
 saveRDS(dis_sport, "dis_sport.rds")
+
+dis_sport <- dis_sport2
+

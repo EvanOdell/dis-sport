@@ -11,7 +11,16 @@ shinyServer(function(input, output, session) {
   
   GYA <- readRDS("GYA.rds")
   
-  GYA_Icon <- makeIcon("GYA.png",25,25)
+  GYA_Icon <- makeIcon("./images/GYA.PNG",25,25)
+  
+  pal <- colorFactor(c("purple", "red", "yellow"), domain = c("Disability","Sport", "Disability and Sport"))
+  
+  typeIcons <- iconList(
+    Disability = makeIcon("./images/disability.PNG", "disability.PNG",30,30),
+    "Disability and Sport" = makeIcon("./images/disSport.PNG", "disSport.PNG",30,30),
+    Sport = makeIcon("./images/sport.png", "sport.png",30,30)
+  )
+  
   
   dis_sport2 = dis_sport[, c('regno',
                              'main',
@@ -38,15 +47,6 @@ shinyServer(function(input, output, session) {
                              'category_type')]
   
   
-  
-  
-  filteredData <- reactive({
-    s2 = input$ds_dt_rows_all
-    dis_sport2[s2, , drop = FALSE]
-  })
-  
-  
-  
   output$mymap <- renderLeaflet({
     leaflet() %>%
       addTiles() %>%
@@ -58,58 +58,93 @@ shinyServer(function(input, output, session) {
                  group="GYA")
   })
   
-  observe({
-    leafletProxy("mymap", data = filteredData()) %>%
-      clearGroup(group="charities") %>%
-      #removeMarkerCluster(layerId="charities") %>%
-      addMarkers(~longitude, ~latitude,
-                 popup=~as.character(paste("Name: ", name, "<br>",
-                                           "Area of Focus 1: ", category_1,"<br>",
-                                           "Area of Focus 2: ",category_2, "<br>",
-                                           "Area of Focus 3: ",category_3, "<br>",
-                                           "Area of Focus 4: ",category_4)),
-                 group="charities",
-                 clusterOptions = markerClusterOptions())
+  
+  
+  getDataSet<-reactive({
+
+    if (is.null(input$mymap_bounds))
+      return(dis_sport2[FALSE,])
+    
+    bounds <- input$mymap_bounds
+    latRng <- range(bounds$north, bounds$south)
+    lngRng <- range(bounds$east, bounds$west)
+    
+    dataSet<-dis_sport2[dis_sport2$category_type == input$category_input
+                        & dis_sport2$latitude >= latRng[1] 
+                        & dis_sport2$latitude <= latRng[2]
+                        & dis_sport2$longitude >= lngRng[1] 
+                        & dis_sport2$longitude <= lngRng[2],
+                        drop=FALSE]
+
   })
   
   
-  
-  output$ds_dt = renderDataTable(
-    datatable(
-      dis_sport2, 
-      filter = 'top',
-      extensions = c('FixedHeader','Buttons'),
+
+  output$ds_dt = renderDataTable(datatable({
+      dataSet<-getDataSet()
+      dataSet
+      
+      },filter = 'top',
       colnames = c('Registration Number'='regno',
-                   'Primary Charity' = 'main',
-                   'Name' ='name',
-                   'Area of Benefit' ='area_of_benefit',
-                   'District' ='district',
-                   'Region' ='region',
-                   'Address' ='address',
-                   'Phone' ='phone',
-                   'Web' ='web',
-                   'Any Disability'='any_disability',
-                   'Any Sport' ='any_sport',
-                   'Sport and Disability'='both_cats',
-                   'Disability' ='disability',
-                   'People with Disabilities'='people_with_disabilities',
-                   'Amateur Sport'='amateur_sport',          
-                   'Recreation' ='recreation'),
+                     'Primary Charity' = 'main',
+                     'Name' ='name',
+                     'Area of Benefit' ='area_of_benefit',
+                     'District' ='district',
+                     'Region' ='region',
+                     'Address' ='address',
+                     'Phone' ='phone',
+                     'Web' ='web',
+                     'Any Disability'='any_disability',
+                     'Any Sport' ='any_sport',
+                     'Sport and Disability'='both_cats',
+                     'Disability' ='disability',
+                     'People with Disabilities'='people_with_disabilities',
+                     'Amateur Sport'='amateur_sport',          
+                     'Recreation' ='recreation'),
+      extensions = c('FixedHeader','Buttons'),
       
       options = list(
         lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
         pageLength = 5, 
         fixedHeader = TRUE,
         server = TRUE, 
-        autoWidth = TRUE,
-        columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18,19,20,21,22,23))),
+        autoWidth = FALSE,
+        columnDefs = list(list(visible=FALSE, targets=list(4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23))),
         dom = 'Blfrtip',
-        buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,15,16,17,18),visible=FALSE)),
+        buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,12,13,14,15,16,17,18),visible=FALSE)),
                     list(list(extend = 'collection',
                               buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
                               text = 'Download Data'
                     )))
       )))
+  
+ 
+  
+  
+  observe({
+    
+    dataSet<-getDataSet() 
+    
+    filteredData <- reactive({
+      s2 = input$ds_dt_rows_all
+      dataSet[s2, , drop = FALSE]
+    })
+    
+    leafletProxy("mymap", data = filteredData()) %>%
+      clearGroup(group="charities") %>%
+      #removeMarkerCluster(layerId="charities") %>%
+      addMarkers(~longitude, ~latitude,
+                       icon = ~typeIcons[category_type],
+                 popup=~as.character(paste("<strong>Name:</strong> ", name, "<br>",
+                                           "<strong>Area of Focus:</strong> ", category_type, "<br>",
+                                           "<br>",
+                                           "<strong>Contact</strong>", "<br>",
+                                           "Address: ", address,"<br>",
+                                           "Phone: ", phone,"<br>",
+                                           "Web: ", web)),
+                 group="charities",
+                 clusterOptions = markerClusterOptions())
+  })
   
   
 })

@@ -11,14 +11,26 @@ header<-dashboardHeader(title='Disability Sport Charities')
 
 body<-dashboardBody(
   fluidRow(
-    column(width = 10, offset=1,
+    column(width = 8,offset = 1,
            box(width = NULL, solidHeader = TRUE,
                leafletOutput("mymap", height=400)
            ),
            box(width=NULL,
                dataTableOutput("ds_dt")
            )
-    )))
+    ),
+    column(width=2,
+           box(width=NULL, 
+               checkboxGroupInput("category_input",
+                            "Category",c("Disability"="Disability",
+                                         "Sport"="Sport",
+                                         "Disability and Sport"="Disability and Sport"),
+                            selected = "Disability and Sport")
+               
+           )
+    )
+  )
+)
 
 
 dashboardPage(
