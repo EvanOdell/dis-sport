@@ -1,5 +1,4 @@
 
-
 library(shiny)
 library(DT)
 library(leaflet)
@@ -7,7 +6,7 @@ library(shinyjs)
 
 
 shinyServer(function(input, output, session) {
- 
+  
   dis_sport<- readRDS("dis_sport.rds")
   
   GYA <- readRDS("GYA.rds")
@@ -59,22 +58,21 @@ shinyServer(function(input, output, session) {
                    'People with Disabilities'='people_with_disabilities',
                    'Amateur Sport'='amateur_sport',          
                    'Recreation' ='recreation'),
-    
-    options = list(
-      lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
-      pageLength = 5, 
-      fixedHeader = TRUE,
-      server = TRUE, 
-      autoWidth = TRUE,
-      columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18,19,20,21,22,23))),
-      dom = 'Blfrtip',
-      buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,15,16,17,18),visible=FALSE)),
-                  list(list(extend = 'collection',
-                            buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
-                            text = 'Download Data'
-                  )))
-    )))
-  
+      
+      options = list(
+        lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
+        pageLength = 5, 
+        fixedHeader = TRUE,
+        server = TRUE, 
+        autoWidth = TRUE,
+        columnDefs = list(list(visible=FALSE, targets=list(10,11,4,5,6,7,8,9,15,16,17,18,19,20,21,22,23))),
+        dom = 'Blfrtip',
+        buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,15,16,17,18),visible=FALSE)),
+                    list(list(extend = 'collection',
+                              buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
+                              text = 'Download Data'
+                    )))
+      )))
   
   
   
@@ -82,8 +80,8 @@ shinyServer(function(input, output, session) {
     s2 = input$ds_dt_rows_all
     dis_sport2[s2, , drop = FALSE]
   })
-
-
+  
+  
   
   output$mymap <- renderLeaflet({
     leaflet() %>%
@@ -110,8 +108,5 @@ shinyServer(function(input, output, session) {
                  clusterOptions = markerClusterOptions())
   })
   
-
+  
 })
-
-
-
