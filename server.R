@@ -101,10 +101,14 @@ shinyServer(function(input, output, session) {
       #removeMarkerCluster(layerId="charities") %>%
       addMarkers(~longitude, ~latitude,
                  popup=~as.character(paste("Name: ", name, "<br>",
-                                           "Area of Focus 1: ", category_1,"<br>",
-                                           "Area of Focus 2: ",category_2, "<br>",
-                                           "Area of Focus 3: ",category_3, "<br>",
-                                           "Area of Focus 4: ",category_4)),
+                                           "Area of Focus 1: ", category_1, "<br>",
+                                           "Area of Focus 2: ", category_2, "<br>",
+                                           "Area of Focus 3: ", category_3, "<br>",
+                                           "Area of Focus 4: ", category_4, "<br>",
+                                           "<strong>Contact:  </strong>",
+                                           "Address: ", address,"<br>",
+                                           "Phone: ", phone,"<br>",
+                                           "Web: ", web)),
                  group="charities",
                  clusterOptions = markerClusterOptions())
   })
