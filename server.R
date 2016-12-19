@@ -37,6 +37,43 @@ shinyServer(function(input, output, session) {
                              'category_4',
                              'category_type')]
   
+  
+  
+  
+  filteredData <- reactive({
+    s2 = input$ds_dt_rows_all
+    dis_sport2[s2, , drop = FALSE]
+  })
+  
+  
+  
+  output$mymap <- renderLeaflet({
+    leaflet() %>%
+      addTiles() %>%
+      setView(lng = -2.547855, lat = 54.00366, zoom = 5)%>%
+      addMarkers(data=GYA, ~Longitude, ~Latitude,
+                 popup=~as.character(paste("Get Yourself Active Partner", "<br>",
+                                           "Name: ", GYA$name)),
+                 icon=GYA_Icon,
+                 group="GYA")
+  })
+  
+  observe({
+    leafletProxy("mymap", data = filteredData()) %>%
+      clearGroup(group="charities") %>%
+      #removeMarkerCluster(layerId="charities") %>%
+      addMarkers(~longitude, ~latitude,
+                 popup=~as.character(paste("Name: ", name, "<br>",
+                                           "Area of Focus 1: ", category_1,"<br>",
+                                           "Area of Focus 2: ",category_2, "<br>",
+                                           "Area of Focus 3: ",category_3, "<br>",
+                                           "Area of Focus 4: ",category_4)),
+                 group="charities",
+                 clusterOptions = markerClusterOptions())
+  })
+  
+  
+  
   output$ds_dt = renderDataTable(
     datatable(
       dis_sport2, 
@@ -73,40 +110,6 @@ shinyServer(function(input, output, session) {
                               text = 'Download Data'
                     )))
       )))
-  
-  
-  
-  filteredData <- reactive({
-    s2 = input$ds_dt_rows_all
-    dis_sport2[s2, , drop = FALSE]
-  })
-  
-  
-  
-  output$mymap <- renderLeaflet({
-    leaflet() %>%
-      addTiles() %>%
-      setView(lng = -2.547855, lat = 54.00366, zoom = 5)%>%
-      addMarkers(data=GYA, ~Longitude, ~Latitude,
-                 popup=~as.character(paste("Get Yourself Active Partner", "<br>",
-                                           "Name: ", GYA$name)),
-                 icon=GYA_Icon,
-                 group="GYA")
-  })
-  
-  observe({
-    leafletProxy("mymap", data = filteredData()) %>%
-      clearGroup(group="charities") %>%
-      #removeMarkerCluster(layerId="charities") %>%
-      addMarkers(~longitude, ~latitude,
-                 popup=~as.character(paste("Name: ", name, "<br>",
-                                           "Area of Focus 1: ", category_1,"<br>",
-                                           "Area of Focus 2: ",category_2, "<br>",
-                                           "Area of Focus 3: ",category_3, "<br>",
-                                           "Area of Focus 4: ",category_4)),
-                 group="charities",
-                 clusterOptions = markerClusterOptions())
-  })
   
   
 })
