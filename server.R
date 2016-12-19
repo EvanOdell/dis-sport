@@ -2,8 +2,6 @@
 library(shiny)
 library(DT)
 library(leaflet)
-library(shinyjs)
-
 
 shinyServer(function(input, output, session) {
   
@@ -12,10 +10,7 @@ shinyServer(function(input, output, session) {
   GYA <- readRDS("GYA.rds")
   
   GYA_Icon <- makeIcon("./images/GYA.PNG",25,25)
-  
-  #pal <- colorFactor(c("purple", "red", "yellow"), domain = c("Disability","Sport", "Disability and Sport"))
-  
-  typeIcons <- iconList(
+    typeIcons <- iconList(
     Disability = makeIcon("./images/disability.PNG", "disability.PNG",30,30),
     "Disability and Sport" = makeIcon("./images/disSport.PNG", "disSport.PNG",30,30),
     Sport = makeIcon("./images/sport.png", "sport.png",30,30)
