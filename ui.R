@@ -22,9 +22,9 @@ body<-dashboardBody(
     column(width=2,
            box(width=NULL, 
                checkboxGroupInput("category_input",
-                            "Category",c("Disability"="Disability",
-                                         "Sport"="Sport",
-                                         "Disability and Sport"="Disability and Sport"),
+                            "Category",c("Disability and Sport"="Disability and Sport",
+                                         "Disability"="Disability",
+                                         "Sport"="Sport"),
                             selected = "Disability and Sport")
                
            )
