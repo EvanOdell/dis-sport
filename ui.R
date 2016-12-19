@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ded0d627f9630d8840e277911a4223aafbe9f6d
 
 library(shiny)
 library(DT)
@@ -6,6 +9,22 @@ library(shinyjs)
 library(leaflet)
 library(shinydashboard)
 
+<<<<<<< HEAD
+=======
+shinyUI(fluidPage(
+  useShinyjs(),
+  
+  title = 'Disability Sport Charities',
+  
+  actionButton("hideshow", "Hide/show table"),
+  
+  fluidRow(
+    column(10,offset = 1, 
+        leafletOutput("mymap")
+    )
+  ),
+  
+>>>>>>> 6ded0d627f9630d8840e277911a4223aafbe9f6d
 
 header<-dashboardHeader(title='Disability Sport Charities')
 
