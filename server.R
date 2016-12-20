@@ -13,7 +13,7 @@ shinyServer(function(input, output, session) {
   
   typeIcons <- iconList(
     Disability = makeIcon("./disability.PNG", "./disability.PNG",30,30),
-    "Disability and Sport" = makeIcon("./disSport.PNG", "./disSport.PNG",30,30),
+    "devtools::package_deps('leaflet') tDisability and Sport" = makeIcon("./disSport.PNG", "./disSport.PNG",30,30),
     Sport = makeIcon("./sport.png", "./sport.png",30,30)
   )
   
@@ -100,7 +100,7 @@ shinyServer(function(input, output, session) {
       clearGroup(group="charities") %>%
       #removeMarkerCluster(layerId="charities") %>%
       addMarkers(~longitude, ~latitude,
-                       icon = ~typeIcons[category],
+                       #icon = ~typeIcons[category],
                  popup=~as.character(paste("<strong>Name:</strong> ", name, "<br>",
                                            "<strong>Area of Focus:</strong> ", category, "<br>",
                                            "<br>",
