@@ -38,7 +38,7 @@ shinyServer(function(input, output, session) {
     latRng <- range(bounds$north, bounds$south)
     lngRng <- range(bounds$east, bounds$west)
     
-    dataSet<-dis_sport[dis_sport$category_type == input$category_input
+    dataSet<-dis_sport[dis_sport$category == input$category_input
                         & dis_sport$latitude >= latRng[1] 
                         & dis_sport$latitude <= latRng[2]
                         & dis_sport$longitude >= lngRng[1] 
@@ -69,7 +69,7 @@ shinyServer(function(input, output, session) {
                      'People with Disabilities'='people_with_disabilities',
                      'Amateur Sport'='amateur_sport',          
                      'Recreation' ='recreation',
-                     'Category' = 'category_type'),
+                     'Category' = 'category'),
       extensions = c('FixedHeader','Buttons'),
       
       options = list(
@@ -100,9 +100,9 @@ shinyServer(function(input, output, session) {
       clearGroup(group="charities") %>%
       #removeMarkerCluster(layerId="charities") %>%
       addMarkers(~longitude, ~latitude,
-                       icon = ~typeIcons[category_type],
+                       icon = ~typeIcons[category],
                  popup=~as.character(paste("<strong>Name:</strong> ", name, "<br>",
-                                           "<strong>Area of Focus:</strong> ", category_type, "<br>",
+                                           "<strong>Area of Focus:</strong> ", category, "<br>",
                                            "<br>",
                                            "<strong>Contact</strong>", "<br>",
                                            "Address: ", address,"<br>",
