@@ -9,14 +9,14 @@ shinyServer(function(input, output, session) {
   
   GYA <- readRDS("GYA.rds")
   
-  GYA_Icon <- makeIcon("./GYA.PNG","./GYA.PNG",25,25)
+  GYA_Icon <- makeIcon("http://shiny.evanodell.com/icons/GYA.png","http://shiny.evanodell.com/icons/GYA.png",25,25)
   
-  pal <- colorFactor(c("navy", "red", "purple"), domain = c("Disability", "Disability and Sport", "Sport"))
+  #pal <- colorFactor(c("navy", "red", "purple"), domain = c("Disability", "Disability and Sport", "Sport"))
   
   typeIcons <- iconList(
-    Disability = makeIcon("./disability.PNG", "./disability.PNG",30,30),
-    "Disability and Sport" = makeIcon("./disSport.PNG", "./disSport.PNG",30,30),
-    Sport = makeIcon("./sport.png", "./sport.png",30,30)
+    Disability = makeIcon("http://shiny.evanodell.com/icons/disability.png", "http://shiny.evanodell.com/icons/disability.png",30,30),
+    "Disability and Sport" = makeIcon("http://shiny.evanodell.com/icons/disSport.png", "http://shiny.evanodell.com/icons/disSport.png",30,30),
+    Sport = makeIcon("http://shiny.evanodell.com/icons/sport.png", "http://shiny.evanodell.com/icons/sport.png",30,30)
   )
   
   output$mymap <- renderLeaflet({
@@ -101,9 +101,8 @@ shinyServer(function(input, output, session) {
     leafletProxy("mymap", data = filteredData()) %>%
       clearGroup(group="charities") %>%
       #removeMarkerCluster(layerId="charities") %>%
-      addCircleMarkers(~longitude, ~latitude,
-                       color = ~pal(category),
-                       #icon = ~typeIcons[category],
+      addMarkers(~longitude, ~latitude,
+                       icon = ~typeIcons[category],
                  popup=~as.character(paste("<strong>Name:</strong> ", name, "<br>",
                                            "<strong>Area of Focus:</strong> ", category, "<br>",
                                            "<br>",
