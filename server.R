@@ -17,15 +17,15 @@ shinyServer(function(input, output, session) {
     Sport = makeIcon("sport.png", "sport.png",30,30)
   )
   
-  
   output$mymap <- renderLeaflet({
     leaflet() %>%
       addTiles() %>%
       setView(lng = -2.547855, lat = 54.00366, zoom = 5)%>%
       addMarkers(data=GYA, ~Longitude, ~Latitude,
+                 icon=GYA_Icon,
                  popup=~as.character(paste("Get Yourself Active Partner", "<br>",
                                            "Name: ", GYA$name)),
-                 icon=GYA_Icon,
+                 
                  group="GYA")
   })
   
@@ -42,7 +42,9 @@ shinyServer(function(input, output, session) {
                         & dis_sport$latitude >= latRng[1] 
                         & dis_sport$latitude <= latRng[2]
                         & dis_sport$longitude >= lngRng[1] 
-                        & dis_sport$longitude <= lngRng[2],]
+                        & dis_sport$longitude <= lngRng[2]
+                        & dis_sport$income_percentile >= input$income_input[1]
+                        & dis_sport$income_percentile <= input$income_input[2],]
 
   })
   
@@ -66,7 +68,8 @@ shinyServer(function(input, output, session) {
                      'Disability' ='disability',
                      'People with Disabilities'='people_with_disabilities',
                      'Amateur Sport'='amateur_sport',          
-                     'Recreation' ='recreation'),
+                     'Recreation' ='recreation',
+                     'Category' = 'category_type'),
       extensions = c('FixedHeader','Buttons'),
       
       options = list(
@@ -75,9 +78,9 @@ shinyServer(function(input, output, session) {
         fixedHeader = TRUE,
         server = TRUE, 
         autoWidth = FALSE,
-        columnDefs = list(list(visible=FALSE, targets=list(4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23))),
+        columnDefs = list(list(visible=FALSE, targets=list(1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,35))),
         dom = 'Blfrtip',
-        buttons = c(list(list(extend = 'colvis', columns = c(4,5,6,7,8,9,12,13,14,15,16,17,18),visible=FALSE)),
+        buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35),visible=FALSE)),
                     list(list(extend = 'collection',
                               buttons = c('copy', 'print', 'csv', 'excel', 'pdf'),
                               text = 'Download Data'

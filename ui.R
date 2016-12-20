@@ -23,6 +23,11 @@ body<-dashboardBody(
                                          "Disability"="Disability",
                                          "Sport"="Sport"),
                             selected = "Disability and Sport")
+      ),
+      box(width=NULL, 
+          sliderInput("income_input",
+                             "Income Percentile",min=0,max=100,
+                      value = c(50,60), step=1)
       )
     )
   )
