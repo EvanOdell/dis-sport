@@ -9,12 +9,12 @@ shinyServer(function(input, output, session) {
   
   GYA <- readRDS("GYA.rds")
   
-  GYA_Icon <- makeIcon("GYA.PNG",25,25)
+  GYA_Icon <- makeIcon("./GYA.PNG","./GYA.PNG",25,25)
   
   typeIcons <- iconList(
-    Disability = makeIcon("./disability.PNG", "disability.PNG",30,30),
-    "Disability and Sport" = makeIcon("./disSport.PNG", "disSport.PNG",30,30),
-    Sport = makeIcon("./sport.png", "sport.png",30,30)
+    Disability = makeIcon("./disability.PNG", "./disability.PNG",30,30),
+    "Disability and Sport" = makeIcon("./disSport.PNG", "./disSport.PNG",30,30),
+    Sport = makeIcon("./sport.png", "./sport.png",30,30)
   )
   
   output$mymap <- renderLeaflet({
