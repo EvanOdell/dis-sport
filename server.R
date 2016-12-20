@@ -11,9 +11,11 @@ shinyServer(function(input, output, session) {
   
   GYA_Icon <- makeIcon("./GYA.PNG","./GYA.PNG",25,25)
   
+  pal <- colorFactor(c("navy", "red", "purple"), domain = c("Disability", "Disability and Sport", "Sport"))
+  
   typeIcons <- iconList(
     Disability = makeIcon("./disability.PNG", "./disability.PNG",30,30),
-    "devtools::package_deps('leaflet') tDisability and Sport" = makeIcon("./disSport.PNG", "./disSport.PNG",30,30),
+    "Disability and Sport" = makeIcon("./disSport.PNG", "./disSport.PNG",30,30),
     Sport = makeIcon("./sport.png", "./sport.png",30,30)
   )
   
@@ -99,7 +101,8 @@ shinyServer(function(input, output, session) {
     leafletProxy("mymap", data = filteredData()) %>%
       clearGroup(group="charities") %>%
       #removeMarkerCluster(layerId="charities") %>%
-      addMarkers(~longitude, ~latitude,
+      addCircleMarkers(~longitude, ~latitude,
+                       color = ~pal(category),
                        #icon = ~typeIcons[category],
                  popup=~as.character(paste("<strong>Name:</strong> ", name, "<br>",
                                            "<strong>Area of Focus:</strong> ", category, "<br>",
