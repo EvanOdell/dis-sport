@@ -10,7 +10,7 @@ body<-dashboardBody(
   fluidRow(
     column(width = 8,offset = 1,
            box(width = NULL, solidHeader = TRUE,
-               leafletOutput("mymap", height=400)
+               leafletOutput("mymap")
            ),
            box(width=NULL,
                dataTableOutput("ds_dt")
