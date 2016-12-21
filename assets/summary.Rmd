@@ -1,0 +1,33 @@
+---
+title: "summary"
+author: "Evan Odell"
+date: "21 December 2016"
+output: html_document
+---
+
+
+
+This map contains information on the location and contact information for every charity listed in the charity commission that include amateur sport and recreation, disability and disabled people, or both, in their area of focus. The penguin icons indicate partners in the [Get Yourself Active](http://www.getyourselfactive.org/) programme
+
+To search by name use the search box in the table beneath the map. 
+
+To see more columns, click on the 'Column Visibility' button.
+
+This app has the function to filter charities by income, which is useful if you are looking for charities of a particular size.
+
+#### Download
+
+To download information in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app.
+
+
+
+
+#### Assistance
+
+If you need any help using this map, or have any suggestions, questions or comment, please contact [Evan Odell](mailto:evan.odell@disabilityrightsuk.org)
+
+Source code is available on [Github](https://github.com/EvanOdell/dis-sport).
+
+This app is licensed under an MIT License. Charity data is taken from the Charity Commission data download, and is licensed under the Open Government Licence v3.0. 
+
+
