@@ -27,7 +27,7 @@ body<-dashboardBody(
            box(width=NULL,
                checkboxInput("show_penguins",
                              "Show Get Yourself Active Partners",
-                             value = TRUE)),
+                             value = FALSE)),
            
       box(width=NULL, 
           #sliderInput("income_input",

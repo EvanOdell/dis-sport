@@ -2,7 +2,7 @@
 library(shiny)
 library(DT)
 library(leaflet)
-library(gridExtra)
+library(readr)
 
 shinyServer(function(input, output, session) {
   
@@ -26,7 +26,6 @@ shinyServer(function(input, output, session) {
   })
   
   getDataSet<-reactive({
-
     if (is.null(input$mymap_bounds))
       return(dis_sport[FALSE,])
     
@@ -43,7 +42,6 @@ shinyServer(function(input, output, session) {
                         #& dis_sport$income_percentile <= input$income_input[2],
                         & dis_sport$income >= input$min_income
                         & dis_sport$income <= input$max_income,]
-
   })
   
   output$ds_dt = renderDataTable(datatable({
@@ -101,8 +99,38 @@ shinyServer(function(input, output, session) {
                                                              9,10,11,12,13,14,
                                                              15,16,17,18,19,20,
                                                              21,22,23,24,25,26,
-                                                             27,28,29,30,31,32),visible=FALSE))))))
+                                                             27,28,29,30,31,32),visible=FALSE))#,
+                    #list(list(extend = 'collection',
+                              #buttons = list(list(extend='csv',
+                                                  #filename = 'disability_sport'),
+                                             #list(extend='excel',
+                                                  #filename = 'disability_sport'),
+                                             #list(extend='pdf',
+                                                  #filename= 'disability_sport')),
+                              #text = 'Download Data',
+                              #scrollX = TRUE,
+                              #order=list(list(2,'desc'))))
+                    ))))
                     
+  observe({
+    proxy <- leafletProxy("mymap", data = GYA)
+    if (input$show_penguins==TRUE) {
+      proxy %>% addMarkers(data = GYA, ~Longitude, ~Latitude,
+                           icon=GYA_Icon,
+                           popup=~as.character(paste("Get Yourself Active Partner", "<br>",
+                                                     "Name: ", GYA$name, "<br>",
+                                                     "<br>",
+                                                     "<strong>Contact</strong>", "<br>",
+                                                     "Address: ", address,"<br>",
+                                                     "Phone: ", phone,"<br>",
+                                                     "Website: ", web)),
+                           group="GYA")
+    } else {
+      proxy %>% clearGroup(group="GYA")
+    }
+    
+  })
+  
   observe({
     
     dataSet<-getDataSet() 
@@ -128,35 +156,11 @@ shinyServer(function(input, output, session) {
                  clusterOptions = markerClusterOptions())
   
   output$downloadData <- downloadHandler(
-    filename = function() { paste("disability_sport", '.csv', sep='') },
+    filename = function() { paste('disability_sport', Sys.Date(), '.csv', sep='') },
     content = function(file) {
-      write.csv(filteredData(), file, row.names = FALSE)
+      write_csv(filteredData(), file)
     }
   )
   }) 
-  
-  observe({
-    proxy <- leafletProxy("mymap", data = GYA)
-    
-    if (input$show_penguins==TRUE) {
-      
-      proxy %>% addMarkers(data = GYA, ~Longitude, ~Latitude,
-                  icon=GYA_Icon,
-                  popup=~as.character(paste("Get Yourself Active Partner", "<br>",
-                                            "Name: ", GYA$name, "<br>",
-                                            "<br>",
-                                            "<strong>Contact</strong>", "<br>",
-                                            "Address: ", address,"<br>",
-                                            "Phone: ", phone,"<br>",
-                                            "Website: ", web)),
-                  group="GYA")
-      
-    } else {
-      
-      proxy %>% clearGroup(group="GYA")
-    
-      }
-    
-  })
   
 })

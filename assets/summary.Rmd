@@ -5,26 +5,29 @@ date: "21 December 2016"
 output: html_document
 ---
 
+#### Using this app
 
+This map contains information on the location and contact information for every charity listed in the charity commission that include amateur sport and recreation, disability and disabled people, or both, in their area of focus.
 
-This map contains information on the location and contact information for every charity listed in the charity commission that include amateur sport and recreation, disability and disabled people, or both, in their area of focus. The penguin icons indicate partners in the [Get Yourself Active](http://www.getyourselfactive.org/) programme
+The map and the table update each other. So if you zoom in on the map, the table will only contain charities that are on the map. If you search in the table, only charities that meet what you are searching for will be displayed on the map.
+
+The penguin icons, which you can turn on and off with the 'Show Get Yourself Active Partners' checkbox, indicate partners in the [Get Yourself Active](http://www.getyourselfactive.org/) programme.
 
 To search by name use the search box in the table beneath the map. 
 
 To see more columns, click on the 'Column Visibility' button.
 
-This app has the function to filter charities by income, which is useful if you are looking for charities of a particular size.
+This app has the function to filter charities by income, which is useful if you are looking for charities of a particular size. Note that leaving these filters blank can cause errors in the app. The default values are set to the minimum and maximum incomes of all charities you can search.
 
-#### Download
+#### Download Information
 
-To download information in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app.
-
-
-
+To download information in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app. The spreadsheet will contain all charities that are contained in the table, even if they are not on the front page of the table.
 
 #### Assistance
 
-If you need any help using this map, or have any suggestions, questions or comment, please contact [Evan Odell](mailto:evan.odell@disabilityrightsuk.org)
+If you need any help using this map, or have any suggestions, questions or comments, please contact [Evan Odell](mailto:evan.odell@disabilityrightsuk.org).
+
+#### Licensing
 
 Source code is available on [Github](https://github.com/EvanOdell/dis-sport).
 
