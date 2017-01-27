@@ -87,7 +87,7 @@ shinyServer(function(input, output, session) {
         lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
         pageLength = 5, 
         fixedHeader = TRUE,
-        server = TRUE, 
+        server = FALSE, 
         autoWidth = FALSE,
         columnDefs = list(list(visible=FALSE, targets=list(1,3,4,6,7,8,9,10,
                                                            11,12,13,14,15,16,
