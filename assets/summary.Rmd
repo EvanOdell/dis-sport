@@ -19,6 +19,8 @@ To see more columns, click on the 'Column Visibility' button.
 
 This app has the function to filter charities by income, which is useful if you are looking for charities of a particular size. Note that leaving these filters blank can cause errors in the app. The default values are set to the minimum and maximum incomes of all charities you can search.
 
+This data is accurate as of the October 2016 Charity Commission Bulk Data release. 
+
 #### Download Information
 
 To download information in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app. The spreadsheet will contain all charities that are contained in the table, even if they are not on the front page of the table.

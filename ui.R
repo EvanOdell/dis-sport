@@ -4,10 +4,12 @@ library(DT)
 library(leaflet)
 library(shinydashboard)
 
-header<-dashboardHeader(title='Disability Sport Charities')
+header<-dashboardHeader(title='Disability Sport Charities',
+                        titleWidth = 350)
 
 body<-dashboardBody(
   fluidRow(
+    #h4(a("Return to evanodell.com", href="http://shiny.evanodell.com/")),
     column(width = 8,offset = 1,
            box(width = NULL, solidHeader = TRUE,
                leafletOutput("mymap")
