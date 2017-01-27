@@ -117,7 +117,7 @@ shinyServer(function(input, output, session) {
     if (input$show_penguins==TRUE) {
       proxy %>% addMarkers(data = GYA, ~Longitude, ~Latitude,
                            icon=GYA_Icon,
-                           popup=~as.character(paste("Get Yourself Active Partner", "<br>",
+                           popup=~as.character(paste("<strong>Get Yourself Active Partner</strong>", "<br>",
                                                      "Name: ", GYA$name, "<br>",
                                                      "<br>",
                                                      "<strong>Contact</strong>", "<br>",

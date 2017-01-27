@@ -8,11 +8,6 @@ View(dis_sport)
 
 dis_sport<- readRDS("dis_sport.rds")
 
-
-
-
-
-
 saveRDS(dis_sport, "dis_sport.rds")
 
 dis_sport <- readRDS("dis_sport.rds")
