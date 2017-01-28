@@ -117,13 +117,13 @@ shinyServer(function(input, output, session) {
     if (input$show_penguins==TRUE) {
       proxy %>% addMarkers(data = GYA, ~Longitude, ~Latitude,
                            icon=GYA_Icon,
-                           popup=~as.character(paste("Get Yourself Active Partner", "<br>",
-                                                     "Name: ", GYA$name, "<br>",
+                           popup=~as.character(paste("<strong>Get Yourself Active Partner</strong>", "<br>",
+                                                     "<strong>Name:</strong> ", GYA$name, "<br>",
                                                      "<br>",
                                                      "<strong>Contact</strong>", "<br>",
-                                                     "Address: ", address,"<br>",
-                                                     "Phone: ", phone,"<br>",
-                                                     "Website: ", web)),
+                                                     "<strong>Address:</strong> ", address,"<br>",
+                                                     "<strong>Phone:</strong> ", phone,"<br>",
+                                                     "<strong>Website:</strong> ", web)),
                            group="GYA")
     } else {
       proxy %>% clearGroup(group="GYA")
@@ -149,9 +149,9 @@ shinyServer(function(input, output, session) {
                                            "<strong>Area of Focus:</strong> ", category, "<br>",
                                            "<br>",
                                            "<strong>Contact</strong>", "<br>",
-                                           "Address: ", address,"<br>",
-                                           "Phone: ", phone,"<br>",
-                                           "Website: ", web)),
+                                           "<strong>Address:</strong> ", address,"<br>",
+                                           "<strong>Phone:</strong> ", phone,"<br>",
+                                           "<strong>Website:</strong> ", web)),
                  group="charities",
                  clusterOptions = markerClusterOptions())
   

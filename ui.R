@@ -8,8 +8,12 @@ header<-dashboardHeader(title='Disability Sport Charities',
                         titleWidth = 350)
 
 body<-dashboardBody(
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+  ),
+  h4(a(icon("futbol-o"),"Return to getyourselfactive.org", href="http://getyourselfactive.org")),
+  h4(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/")),
   fluidRow(
-    #h4(a("Return to evanodell.com", href="http://shiny.evanodell.com/")),
     column(width = 8,offset = 1,
            box(width = NULL, solidHeader = TRUE,
                leafletOutput("mymap")
@@ -44,7 +48,7 @@ body<-dashboardBody(
       
       box(width=NULL, 
           downloadButton('downloadData',
-                         'Download CSV File'))
+                         'Download Table'))
       )
    )
 )
