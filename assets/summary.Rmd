@@ -1,7 +1,7 @@
 ---
 title: "summary"
 author: "Evan Odell"
-date: "21 December 2016"
+date: "27 January 2017"
 output: html_document
 ---
 
@@ -19,7 +19,7 @@ To see more columns, click on the 'Column Visibility' button.
 
 This app has the function to filter charities by income, which is useful if you are looking for charities of a particular size. Note that leaving these filters blank can cause errors in the app. The default values are set to the minimum and maximum incomes of all charities you can search.
 
-This data is accurate as of the October 2016 Charity Commission Bulk Data release. 
+This data is accurate as of the January 2017 Charity Commission Bulk Data release, and includes all charities that meet criteria and have financial filings dated on or after 2015-06-01.
 
 #### Download Information
 
