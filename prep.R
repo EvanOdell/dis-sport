@@ -3,7 +3,7 @@ library(readr)
 library(plyr)
 library(dplyr)
 rm(list=ls())
-dis_sport <- read_csv("gya_prospects2_201701301219.csv")
+dis_sport <- read_csv("dis_sport_data.csv")
 #View(dis_sport)
 
 summary(dis_sport)
@@ -123,21 +123,18 @@ dis_sport$web <- gsub("<a href='NA'>NA</a>", "", dis_sport$web)
 dis_sport$address <- paste(dis_sport$add1, dis_sport$add2, dis_sport$add3,
                            dis_sport$add4, dis_sport$add5)
 
-dis_sport <- subset(dis_sport, is.na(latitude)==FALSE)
-
-dis_sport$incomedate <- as.Date(dis_sport$incomedate)
-
-dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "aob",
-                          "region", "address", "phone", "web", "disability","people_with_disabilities",
-                          "amateur_sport", "recreation","postcode", "object", "income","incomedate",
-                          "latitude", "longitude")]
-
-summary(dis_sport)
-
 dis_sport$object <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$object), perl=TRUE)
 dis_sport$address <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$address), perl=TRUE)
 dis_sport$aob <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$aob), perl=TRUE)
 dis_sport$name <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$name), perl=TRUE)
+
+dis_sport$address <- gsub(" Na","",dis_sport$address)
+
+dis_sport <- subset(dis_sport, is.na(latitude)==FALSE)
+
+dis_sport$incomedate <- as.Date(dis_sport$incomedate)
+
+summary(dis_sport)
 
 dis_sport <- dis_sport[rev(order(dis_sport$incomedate)),]
 
@@ -145,5 +142,11 @@ dis_sport <- dis_sport[!duplicated(dis_sport[,c('regno', 'subno')]),]
 
 dis_sport$income <- as.numeric(dis_sport$income)
 
+dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "aob",
+                          "region", "address", "phone", "web", "disability",
+                          "people_with_disabilities","amateur_sport", "recreation",
+                          "income","incomedate", "latitude", "longitude")]
+
 write_rds(dis_sport, "./data/dis_sport.rds")
+
 

@@ -74,9 +74,7 @@ shinyServer(function(input, output, session) {
                'Amateur Sport'='amateur_sport',          
                'Recreation' ='recreation',
                'Category' = 'category',
-               'Postcode' = 'postcode',
                'Subsidiary Number'='subno',
-               'Charitable Object'='object',
                'Income'='income',
                'Income Reporting Date'='incomedate',
                'Latitude'='latitude',
@@ -93,12 +91,11 @@ shinyServer(function(input, output, session) {
       autoWidth = FALSE,
       columnDefs = list(list(visible=FALSE, targets=list(0,5,6,7,8,9,10,
                                                         11,12,13,14,15,16,
-                                                        17,18,19,20,21))),
+                                                        17,18,19))),
       dom = 'Blfrtip',
       buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,
                                                          9,10,11,12,13,14,
-                                                         15,16,17,18,19,20,
-                                                         21),visible=FALSE))
+                                                         15,16,17,18,19),visible=FALSE))
     ))))
   
   observe({
