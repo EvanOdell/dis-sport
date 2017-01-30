@@ -18,6 +18,14 @@ shinyServer(function(input, output, session) {
     Sport = makeIcon("./images/sport.png", "./images/sport.png",30,30)
   )
   
+  observeEvent(input$reset, {
+    
+    shinyjs::reset("myapp")
+    leafletProxy("mymap") %>% 
+      setView(lng = -2.547855, lat = 54.00366, zoom = 5)
+    
+  })
+  
   output$mymap <- renderLeaflet({
     leaflet() %>%
       addTiles() %>%
@@ -28,12 +36,15 @@ shinyServer(function(input, output, session) {
   getDataSet<-reactive({
     if (is.null(input$mymap_bounds))
       return(dis_sport[FALSE,])
-    
+      
     bounds <- input$mymap_bounds
     latRng <- range(bounds$north, bounds$south)
     lngRng <- range(bounds$east, bounds$west)
     
-    dataSet <- dis_sport[dis_sport$category == input$category_input
+    if(input$show_main==TRUE)
+      dis_sport <- subset(dis_sport, main=="TRUE")
+
+    dataSet <- dis_sport[dis_sport$category %in% input$category_input
                          & dis_sport$latitude >= latRng[1] 
                          & dis_sport$latitude <= latRng[2]
                          & dis_sport$longitude >= lngRng[1] 
@@ -44,13 +55,14 @@ shinyServer(function(input, output, session) {
   
   output$ds_dt = renderDataTable(datatable({
       dataSet<-getDataSet()
-      dataSet
+      
+      #dataSet
     
     },filter = 'top',
     colnames = c('Registration Number'='regno',
                'Primary Charity' = 'main',
                'Name' ='name',
-               'Area of Benefit' ='area_of_benefit',
+               'Area of Benefit' ='aob',
                'District' ='district',
                'Region' ='region',
                'Address' ='address',
@@ -66,7 +78,6 @@ shinyServer(function(input, output, session) {
                'Category' = 'category',
                'Postcode' = 'postcode',
                'Subsidiary Number'='subno',
-               'Governing Documents'='governing_documents',
                'Charitable Object'='object',
                'Category 1'='category_1',
                'Category 2'='category_2',
@@ -76,38 +87,28 @@ shinyServer(function(input, output, session) {
                'Income Reporting Date'='incomedate',
                'Latitude'='latitude',
                'Longitude'='longitude',
-               'Constituency'='constituency',
                'Country'='country',
                'County'='county'),
+    
     extensions = c('FixedHeader','Buttons'),
     escape = FALSE,
     options = list(
       lengthMenu = list(c(5, 10, -1), c('5', '10', 'All')),
+      order = list(2, 'asc'),
       pageLength = 5, 
       fixedHeader = TRUE,
       server = TRUE, 
       autoWidth = FALSE,
-      columnDefs = list(list(visible=FALSE, targets=list(1,3,4,6,7,8,9,10,
+      columnDefs = list(list(visible=FALSE, targets=list(0,5,6,7,8,9,10,
                                                         11,12,13,14,15,16,
-                                                        17,18,19,20,22,23,
-                                                        24,25,26,27,28,29,
-                                                        30,30))),
+                                                        17,18,19,20,21,22,23,
+                                                        24,25,26,27,28,29,30))),
       dom = 'Blfrtip',
       buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,
                                                          9,10,11,12,13,14,
                                                          15,16,17,18,19,20,
                                                          21,22,23,24,25,26,
-                                                         27,28,29,30,31),visible=FALSE))#,
-                #list(list(extend = 'collection',
-                #buttons = list(list(extend='csv',
-                #filename = 'disability_sport'),
-                #list(extend='excel',
-                #filename = 'disability_sport'),
-                #list(extend='pdf',
-                #filename= 'disability_sport')),
-                #text = 'Download Data',
-                #scrollX = TRUE,
-                #order=list(list(2,'desc'))))
+                                                         27,28,29,30),visible=FALSE))
     ))))
   
   observe({
@@ -160,6 +161,6 @@ shinyServer(function(input, output, session) {
       }
     )
     
-  }) 
+  })
   
 })

@@ -3,17 +3,21 @@ library(shiny)
 library(DT)
 library(leaflet)
 library(shinydashboard)
+library(shinyjs)
 
-header<-dashboardHeader(title='Disability Sport Charities',
+header <- dashboardHeader(title='Disability Sport Charities',
                         titleWidth = 350)
 
-body<-dashboardBody(
+body <- dashboardBody(
+  shinyjs::useShinyjs(),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
   ),
   h4(a(icon("futbol-o"),"Return to getyourselfactive.org", href="http://getyourselfactive.org")),
-  h4(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/")),
+  h5(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/")),
   fluidRow(
+  div(id="myapp",
+
     column(width = 8,offset = 1,
            box(width = NULL, solidHeader = TRUE,
                leafletOutput("mymap")
@@ -26,13 +30,16 @@ body<-dashboardBody(
     column(width=2,
            box(width=NULL, 
                checkboxGroupInput("category_input",
-                            "Category",c("Disability and Sport"="Disability and Sport",
+                            "Category",c("Disability and Sport"='Disability and Sport',
                                          "Disability"="Disability",
                                          "Sport"="Sport"),
                             selected = "Disability and Sport")),
-           box(width=NULL,
+           box(width=NULL, h5("Options"),
                checkboxInput("show_penguins",
                              "Show Get Yourself Active Partners",
+                             value = TRUE),
+               checkboxInput("show_main",
+                             "Show Primary Charities Only",
                              value = TRUE)),
            
       box(width=NULL, 
@@ -48,15 +55,18 @@ body<-dashboardBody(
       
       box(width=NULL, 
           downloadButton('downloadData',
-                         'Download Table'))
-      )
-   )
+                         'Download Table')),
+      box(width=NULL,
+          actionButton("reset", "Reset Search"))
+          )
+    )
+  )
 )
 
 
 dashboardPage(
   header,
   dashboardSidebar(disable = TRUE),
-  skin = "purple",
+  skin = "green",
   body
 )

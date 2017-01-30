@@ -2,8 +2,9 @@
 library(readr)
 library(plyr)
 library(dplyr)
-dis_sport <- read_csv("~/GYAMaps/dis-sport/dis_sport.csv", col_types = cols(incomedate = col_date(format = "%d/%m/%Y")))
-View(dis_sport)
+rm(list=ls())
+dis_sport <- read_csv("gya_prospects2_201701301219.csv")
+#View(dis_sport)
 
 summary(dis_sport)
 
@@ -15,7 +16,7 @@ dis_sport$main <- as.numeric(dis_sport$subno != 0)
 summary(dis_sport$main)
 dis_sport$main <- as.numeric(dis_sport$subno == 0)
 dis_sport$main <- as.factor(dis_sport$main)
-questionr:::irec()
+#questionr:::irec()
 dis_sport$main <- as.character(dis_sport$main)
 dis_sport$main[dis_sport$main == "0"] <- FALSE
 dis_sport$main[dis_sport$main == "1"] <- TRUE
@@ -32,25 +33,57 @@ dis_sport$category_3 <- as.factor(dis_sport$category_3)
 
 dis_sport$category_4 <- as.factor(dis_sport$category_4)
 
-dis_sport$disability <- ifelse(dis_sport$category_1 == "Disability" | dis_sport$category_2 == "Disability" | dis_sport$category_3 == 
-                                 "Disability" | dis_sport$category_4 == "Disability", "TRUE", "FALSE")
+dis_sport$disability <- ifelse(dis_sport$category_1 == "104" |
+                               dis_sport$category_2 == "104" |
+                               dis_sport$category_3 == "104" |
+                               dis_sport$category_4 == "104", 
+                               "TRUE", "FALSE")
 
-dis_sport$people_with_disabilities <- ifelse(dis_sport$category_1 == "Disability" | dis_sport$category_2 == "Disability" | 
-                                               dis_sport$category_3 == "Disability" | dis_sport$category_4 == "Disability", "TRUE", "FALSE")
+dis_sport$disability[is.na(dis_sport$disability )] <- "FALSE"
 
-dis_sport$amateur_sport <- ifelse(dis_sport$category_1 == "Disability" | dis_sport$category_2 == "Disability" | dis_sport$category_3 == 
-                                    "Disability" | dis_sport$category_4 == "Disability", "TRUE", "FALSE")
+dis_sport$people_with_disabilities <- ifelse(dis_sport$category_1 == "203" |
+                                             dis_sport$category_2 == "203" |
+                                             dis_sport$category_3 == "203" |
+                                             dis_sport$category_4 == "203",
+                                             "TRUE", "FALSE")
 
-dis_sport$recreation <- ifelse(dis_sport$category_1 == "Disability" | dis_sport$category_2 == "Disability" | dis_sport$category_3 == 
-                                 "Disability" | dis_sport$category_4 == "Disability", "TRUE", "FALSE")
+dis_sport$people_with_disabilities[is.na(dis_sport$people_with_disabilities )] <- "FALSE"
 
-dis_sport$any_disability <- ifelse(dis_sport$people_with_disabilities == "TRUE" | dis_sport$disability == "TRUE", "TRUE", 
-                                   "FALSE")
+dis_sport$amateur_sport <- ifelse(dis_sport$category_1 == "110" |
+                                  dis_sport$category_2 == "110" |
+                                  dis_sport$category_3 == "110" |
+                                  dis_sport$category_4 == "110",
+                                  "TRUE", "FALSE")
 
-dis_sport$any_sport <- ifelse(dis_sport$amateur_sport == "TRUE" | dis_sport$recreation == "TRUE", "TRUE", "FALSE")
+dis_sport$amateur_sport[is.na(dis_sport$amateur_sport )] <- "FALSE"
 
-dis_sport$both_cats <- ifelse(dis_sport$any_disability == "TRUE" | dis_sport$any_sport == "TRUE", "TRUE", "FALSE")
+dis_sport$recreation <- ifelse(dis_sport$category_1 == "116" |
+                               dis_sport$category_2 == "116" |
+                               dis_sport$category_3 == "116" |
+                               dis_sport$category_4 == "116",
+                               "TRUE", "FALSE")
 
+dis_sport$recreation[is.na(dis_sport$recreation )] <- "FALSE"
+
+dis_sport$any_disability <- ifelse(dis_sport$people_with_disabilities == "TRUE" |
+                                   dis_sport$disability == "TRUE",
+                                   "TRUE", "FALSE")
+
+dis_sport$any_disability[is.na(dis_sport$any_disability )] <- "FALSE"
+
+dis_sport$any_sport <- ifelse(dis_sport$amateur_sport == "TRUE" |
+                              dis_sport$recreation == "TRUE",
+                              "TRUE", "FALSE")
+
+dis_sport$any_sport[is.na(dis_sport$any_sport )] <- "FALSE"
+
+dis_sport$both_cats <- ifelse(dis_sport$any_disability == "TRUE" &
+                              dis_sport$any_sport == "TRUE",
+                              "TRUE", "FALSE")
+
+dis_sport$both_cats[is.na(dis_sport$both_cats )] <- "FALSE"
+
+dis_sport$any_disability <- as.factor(dis_sport$any_disability)
 
 dis_sport$disability <- as.factor(dis_sport$disability)
 
@@ -60,19 +93,22 @@ dis_sport$amateur_sport <- as.factor(dis_sport$amateur_sport)
 
 dis_sport$recreation <- as.factor(dis_sport$recreation)
 
-dis_sport$any_disability <- as.factor(dis_sport$any_disability)
-
 dis_sport$any_sport <- as.factor(dis_sport$any_sport)
 
 dis_sport$both_cats <- as.factor(dis_sport$both_cats)
 
 dis_sport$country <- as.factor(dis_sport$country)
 
-dis_sport$category_type <- as.factor(dis_sport$category_type)
-
-names(dis_sport)[names(dis_sport) == "category_type"] <- "category"
-
 dis_sport$district <- as.factor(dis_sport$district)
+
+dis_sport$category <- NA
+dis_sport$category[dis_sport$any_disability == "TRUE" & dis_sport$both_cats=="FALSE"] <- 'Disability'
+dis_sport$category[dis_sport$both_cats == "TRUE"] <- 'Disability and Sport'
+dis_sport$category[dis_sport$any_sport == "TRUE" & dis_sport$both_cats=="FALSE"] <- 'Sport'
+
+dis_sport$category <- as.factor(dis_sport$category)
+
+dis_sport$region <- as.factor(dis_sport$region)
 
 summary(dis_sport)
 
@@ -84,21 +120,32 @@ dis_sport$web <- paste0("<a href='", dis_sport$web, "'>", dis_sport$web, "</a>")
 
 dis_sport$web <- gsub("<a href='NA'>NA</a>", "", dis_sport$web)
 
-dis_sport <- dis_sport[,c("regno", "subno", "main", "name", "area_of_benefit",
-                          "district", "region", "address", "phone", "web",
-                          "any_disability", "any_sport", "both_cats",
-                          "people_with_disabilities", "amateur_sport", "recreation",
-                          "category", "postcode", "object", "category_1",
-                          "category_2", "category_3", "category_4", "income",
-                          "incomedate", "latitude", "longitude", "constituency",
-                          "country", "county")]
+dis_sport$address <- paste(dis_sport$add1, dis_sport$add2, dis_sport$add3,
+                           dis_sport$add4, dis_sport$add5)
+
+dis_sport <- subset(dis_sport, is.na(latitude)==FALSE)
+
+dis_sport$incomedate <- as.Date(dis_sport$incomedate)
+
+dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "aob",
+                          "region", "address", "phone", "web","any_disability",
+                          "any_sport", "both_cats", "disability","people_with_disabilities",
+                          "amateur_sport", "recreation","postcode", "object", "category_1",
+                          "category_2", "category_3", "category_4", "income","incomedate",
+                          "latitude", "longitude", "country", "county")]
+
+summary(dis_sport)
+
+dis_sport$object <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$object), perl=TRUE)
+dis_sport$address <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$address), perl=TRUE)
+dis_sport$aob <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$aob), perl=TRUE)
+dis_sport$name <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$name), perl=TRUE)
+
+dis_sport <- dis_sport[rev(order(dis_sport$incomedate)),]
+
+dis_sport <- dis_sport[!duplicated(dis_sport[,c('regno', 'subno')]),]
+
+dis_sport$income <- as.numeric(dis_sport$income)
 
 write_rds(dis_sport, "./data/dis_sport.rds")
-
-# GYA$web <- paste0('<a href='',GYA$web,''>',GYA$web,'</a>')
-
-# write_rds(GYA, './data/GYA.rds')
-
-
-
 
