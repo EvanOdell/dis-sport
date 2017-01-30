@@ -18,7 +18,7 @@ shinyServer(function(input, output, session) {
     Sport = makeIcon("./images/sport.png", "./images/sport.png",30,30)
   )
   
-  observeEvent(input$reset, {
+  observeEvent(input$reset,{
     
     shinyjs::reset("myapp")
     leafletProxy("mymap") %>% 
@@ -33,7 +33,7 @@ shinyServer(function(input, output, session) {
     
   })
   
-  getDataSet<-reactive({
+  getDataSet <- reactive({
     if (is.null(input$mymap_bounds))
       return(dis_sport[FALSE,])
       
@@ -58,7 +58,8 @@ shinyServer(function(input, output, session) {
       
       #dataSet
     
-    },filter = 'top',
+    },
+    filter = 'top',
     colnames = c('Registration Number'='regno',
                'Primary Charity' = 'main',
                'Name' ='name',
@@ -79,16 +80,10 @@ shinyServer(function(input, output, session) {
                'Postcode' = 'postcode',
                'Subsidiary Number'='subno',
                'Charitable Object'='object',
-               'Category 1'='category_1',
-               'Category 2'='category_2',
-               'Category 3'='category_3',
-               'Category 4'='category_4',
                'Income'='income',
                'Income Reporting Date'='incomedate',
                'Latitude'='latitude',
-               'Longitude'='longitude',
-               'Country'='country',
-               'County'='county'),
+               'Longitude'='longitude'),
     
     extensions = c('FixedHeader','Buttons'),
     escape = FALSE,
@@ -101,14 +96,12 @@ shinyServer(function(input, output, session) {
       autoWidth = FALSE,
       columnDefs = list(list(visible=FALSE, targets=list(0,5,6,7,8,9,10,
                                                         11,12,13,14,15,16,
-                                                        17,18,19,20,21,22,23,
-                                                        24,25,26,27,28,29,30))),
+                                                        17,18,19,20,21))),
       dom = 'Blfrtip',
       buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,
                                                          9,10,11,12,13,14,
                                                          15,16,17,18,19,20,
-                                                         21,22,23,24,25,26,
-                                                         27,28,29,30),visible=FALSE))
+                                                         21),visible=FALSE))
     ))))
   
   observe({

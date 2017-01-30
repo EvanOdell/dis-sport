@@ -3,7 +3,6 @@ library(shiny)
 library(DT)
 library(leaflet)
 library(shinydashboard)
-library(shinyjs)
 
 header <- dashboardHeader(title='Disability Sport Charities',
                         titleWidth = 350)
@@ -19,7 +18,8 @@ body <- dashboardBody(
   div(id="myapp",
 
     column(width = 8,offset = 1,
-           box(width = NULL, solidHeader = TRUE,
+           box(
+             width = NULL, solidHeader = TRUE,
                leafletOutput("mymap")
            ),
            box(width=NULL,

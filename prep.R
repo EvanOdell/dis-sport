@@ -128,11 +128,9 @@ dis_sport <- subset(dis_sport, is.na(latitude)==FALSE)
 dis_sport$incomedate <- as.Date(dis_sport$incomedate)
 
 dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "aob",
-                          "region", "address", "phone", "web","any_disability",
-                          "any_sport", "both_cats", "disability","people_with_disabilities",
-                          "amateur_sport", "recreation","postcode", "object", "category_1",
-                          "category_2", "category_3", "category_4", "income","incomedate",
-                          "latitude", "longitude", "country", "county")]
+                          "region", "address", "phone", "web", "disability","people_with_disabilities",
+                          "amateur_sport", "recreation","postcode", "object", "income","incomedate",
+                          "latitude", "longitude")]
 
 summary(dis_sport)
 
