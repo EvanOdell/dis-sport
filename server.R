@@ -48,9 +48,9 @@ shinyServer(function(input, output, session) {
                          & dis_sport$latitude >= latRng[1] 
                          & dis_sport$latitude <= latRng[2]
                          & dis_sport$longitude >= lngRng[1] 
-                         & dis_sport$longitude <= lngRng[2]
-                         & dis_sport$income >= input$min_income
-                         & dis_sport$income <= input$max_income,]
+                         & dis_sport$longitude <= lngRng[2],]
+                         #& dis_sport$income >= input$min_income
+                         #& dis_sport$income <= input$max_income,]
   })
   
   output$ds_dt = renderDataTable(datatable({
