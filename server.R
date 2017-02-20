@@ -10,12 +10,12 @@ shinyServer(function(input, output, session) {
   
   GYA <- readRDS("./data/GYA.rds")
   
-  GYA_Icon <- makeIcon("./images/GYA.png","./images/GYA.png",25,25)
+  GYA_Icon <- makeIcon("./img/GYA.png","./img/GYA.png",25,25)
   
   typeIcons <- iconList(
-    Disability = makeIcon("./images/disability.png", "./images/disability.png",30,30),
-    "Disability and Sport" = makeIcon("./images/disSport.png", "./images/disSport.png",30,30),
-    Sport = makeIcon("./images/sport.png", "./images/sport.png",30,30)
+    Disability = makeIcon("./img/disability.png", "./img/disability.png",30,30),
+    "Disability and Sport" = makeIcon("./img/disSport.png", "./img/disSport.png",30,30),
+    Sport = makeIcon("./img/sport.png", "./img/sport.png",30,30)
   )
   
   observeEvent(input$reset,{
