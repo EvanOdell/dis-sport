@@ -37,7 +37,7 @@ body <- dashboardBody(
            box(width=NULL, h5("Options"),
                checkboxInput("show_penguins",
                              "Show Get Yourself Active Partners",
-                             value = TRUE),
+                             value = FALSE),
                checkboxInput("show_main",
                              "Show Primary Charities Only",
                              value = FALSE)),
