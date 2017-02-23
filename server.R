@@ -54,7 +54,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$ds_dt = renderDataTable(datatable({
-      dataSet<-getDataSet()
+      dataSet <- getDataSet()
       
       #dataSet
     
@@ -88,12 +88,11 @@ shinyServer(function(input, output, session) {
       server = TRUE, 
       autoWidth = FALSE,
       columnDefs = list(list(visible=FALSE, targets=list(0,5,6,7,8,9,10,
-                                                        11,12,13,14,15,16,
-                                                        17))),
+                                                        11,12,13,14,15,16))),
       dom = 'Blfrtip',
       buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,
                                                          9,10,11,12,13,14,
-                                                         15,16,17),visible=FALSE))
+                                                         15,16),visible=FALSE))
     ))))
   
   observe({
@@ -110,8 +109,10 @@ shinyServer(function(input, output, session) {
                                                      "Website: ", web)),
                            group="GYA")
     } else {
+      
       proxy %>% clearGroup(group="GYA")
-    }
+    
+      }
     
   })
   
@@ -120,9 +121,12 @@ shinyServer(function(input, output, session) {
     dataSet<-getDataSet() 
     
     filteredData <- reactive({
-      s2 = input$ds_dt_rows_all
+      
+      s2 <- input$ds_dt_rows_all
+      
       dataSet[s2, , drop = FALSE]
-    })
+    
+      })
     
     leafletProxy("mymap", data = filteredData()) %>%
       clearGroup(group="charities") %>%
