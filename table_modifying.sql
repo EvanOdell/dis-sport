@@ -1,12 +1,12 @@
 
-/* Import all of extract_class as 'text' format */
+/* Import all of extract_class and extract_class_ref as 'text' format */
 
 /* Need to combine 'extract_object' into 1 file*/
 
 create table charity.extract_proper_object as
-SELECT regno, seqno, string_agg(object, ', ')
+SELECT regno, seqno, subno, string_agg(object, ', ')
 FROM charity.extract_objects
-GROUP BY regno, seqno
+GROUP BY regno,subno, seqno
 ORDER by seqno ASC;
 
 create table charity.class_name_regno as
@@ -46,7 +46,7 @@ SELECT charity.extract_charity.regno,
 	charity.extract_main_charity.web,
 	charity.extract_main_charity.income,
 	charity.extract_main_charity.incomedate,
-	charity.extract_objects.object,
+	charity.extract_proper_object.string_agg,
 	charity.cat_details.category_1,
 	charity.cat_details.category_2,
 	charity.cat_details.category_3,
@@ -54,8 +54,8 @@ SELECT charity.extract_charity.regno,
 FROM charity.extract_charity
 INNER JOIN charity.extract_main_charity ON extract_charity.regno = extract_main_charity.regno
 INNER JOIN charity.cat_details ON extract_charity.regno = cat_details.regno
-INNER JOIN charity.extract_objects ON extract_charity.regno = extract_objects.regno 
-and extract_charity.subno = extract_objects.subno and charity.extract_main_charity.incomedate >= '2015-06-01 00:00:00';
+INNER JOIN charity.extract_proper_object ON extract_charity.regno = extract_proper_object.regno 
+and extract_charity.subno = extract_proper_object.subno and charity.extract_main_charity.incomedate >= '2015-06-01 00:00:00';
 
 
 create table charity.gya_prospects2 as
