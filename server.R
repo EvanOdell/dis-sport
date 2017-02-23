@@ -27,6 +27,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$mymap <- renderLeaflet({
+    
     leaflet() %>%
       addTiles() %>%
       setView(lng = -2.547855, lat = 54.00366, zoom = 5)
@@ -90,11 +91,11 @@ shinyServer(function(input, output, session) {
       autoWidth = FALSE,
       columnDefs = list(list(visible=FALSE, targets=list(0,5,6,7,8,9,10,
                                                         11,12,13,14,15,16,
-                                                        17))),
+                                                        17,18))),
       dom = 'Blfrtip',
       buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,
                                                          9,10,11,12,13,14,
-                                                         15,16,17),visible=FALSE))
+                                                         15,16,17,18),visible=FALSE))
     ))))
   
   observe({

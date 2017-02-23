@@ -20,8 +20,6 @@ ALTER TABLE charity.england_postcodes RENAME COLUMN "Region" TO region;
 ALTER TABLE charity.england_postcodes RENAME COLUMN "Postcode" TO postcode;
 
 
-
-
 create table charity.extract_proper_object as
 SELECT regno, seqno, subno, string_agg(object, ', ')
 FROM charity.extract_objects
@@ -76,7 +74,3 @@ INNER JOIN charity.cat_details ON extract_charity.regno = cat_details.regno
 INNER JOIN charity.extract_proper_object ON extract_charity.regno = extract_proper_object.regno 
 left join charity.england_postcodes on extract_charity.postcode = england_postcodes.postcode
 and extract_charity.subno = extract_proper_object.subno and charity.extract_main_charity.incomedate >= '2015-07-01 00:00:00';
-
-
-create table charity.gya_prospects2 as
-SELECT * FROM charity.gya_prospects LEFT JOIN charity.england_postcodes USING (postcode);
