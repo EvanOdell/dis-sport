@@ -19,6 +19,8 @@ names(dis_sport) <- tolower(names(dis_sport))
 
 names(dis_sport)[names(dis_sport)=="string_agg"] <- "object"
 
+names(dis_sport)[names(dis_sport)=="aob"] <- "area_of_benefit"
+
 dis_sport$main <- as.numeric(dis_sport$subno == 0)
 ##summary(dis_sport$main)
 dis_sport$main <- as.factor(dis_sport$main)
@@ -136,7 +138,7 @@ dis_sport$address <- paste(dis_sport$add1, dis_sport$add2, dis_sport$add3,
 
 dis_sport$object <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$object), perl=TRUE)
 dis_sport$address <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$address), perl=TRUE)
-dis_sport$aob <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$aob), perl=TRUE)
+dis_sport$area_of_benefit <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$area_of_benefit), perl=TRUE)
 dis_sport$name <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$name), perl=TRUE)
 
 dis_sport$address <- gsub(" Na","",dis_sport$address)
@@ -155,7 +157,7 @@ dis_sport$latitude <- as.numeric(dis_sport$latitude)
 
 dis_sport$longitude <- as.numeric(dis_sport$longitude)
 
-dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "aob",
+dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "area_of_benefit",
                           "region", "address", "phone", "web", "disability",
                           "people_with_disabilities","amateur_sport", "recreation",
                           "latitude", "longitude")]

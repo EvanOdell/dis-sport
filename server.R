@@ -63,7 +63,7 @@ shinyServer(function(input, output, session) {
     colnames = c('Registration Number'='regno',
                'Primary Charity' = 'main',
                'Name' ='name',
-               'Area of Benefit' ='aob',
+               'Area of Benefit' ='area_of_benefit',
                'District' ='district',
                'Region' ='region',
                'Address' ='address',
@@ -144,12 +144,23 @@ shinyServer(function(input, output, session) {
                  group="charities",
                  clusterOptions = markerClusterOptions())
     
-    output$downloadData <- downloadHandler(
-      filename = function() {paste('disability_sport', Sys.Date(), '.csv', sep='')},
-      content = function(file) {
-        write_csv(filteredData(), file)
-      }
-    )
+    
+    
+
+    output$download_data = downloadHandler(paste0('disability_sport_', Sys.Date(),".csv"), content = function(file) {
+      
+      s2 <- input$ds_dt_rows_all
+      
+      dataSet$web <- gsub("<a href='", "", dataSet$web)
+      
+      dataSet$web <- gsub("'>.*", "", dataSet$web)
+      
+      #dataSet$web <- gsub("</a>*", "", dataSet$web)
+      
+      write_csv(dataSet[s2, , drop = FALSE], file)
+      
+    })
+    
     
   })
   

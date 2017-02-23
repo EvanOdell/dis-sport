@@ -54,8 +54,10 @@ body <- dashboardBody(
           #            max = 767600000,pre = "£", sep = ",")),
       
       box(width=NULL, 
-          downloadButton('downloadData',
+          downloadButton('download_data',
                          'Download Table')),
+
+      
       box(width=NULL,
           actionButton("reset", "Reset Search"))
           )
