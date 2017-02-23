@@ -75,8 +75,6 @@ shinyServer(function(input, output, session) {
                'Recreation' ='recreation',
                'Category' = 'category',
                'Subsidiary Number'='subno',
-               'Income'='income',
-               'Income Reporting Date'='incomedate',
                'Latitude'='latitude',
                'Longitude'='longitude'),
     
