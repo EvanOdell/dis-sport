@@ -151,7 +151,9 @@ dis_sport <- dis_sport[rev(order(dis_sport$incomedate)),]
 
 dis_sport <- dis_sport[!duplicated(dis_sport[,c('regno', 'subno')]),]
 
-dis_sport$income <- as.numeric(dis_sport$income)
+dis_sport$latitude <- as.numeric(dis_sport$latitude)
+
+dis_sport$longitude <- as.numeric(dis_sport$longitude)
 
 dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "aob",
                           "region", "address", "phone", "web", "disability",
