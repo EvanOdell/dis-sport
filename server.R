@@ -91,11 +91,11 @@ shinyServer(function(input, output, session) {
       autoWidth = FALSE,
       columnDefs = list(list(visible=FALSE, targets=list(0,5,6,7,8,9,10,
                                                         11,12,13,14,15,16,
-                                                        17,18,19))),
+                                                        17))),
       dom = 'Blfrtip',
       buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,
                                                          9,10,11,12,13,14,
-                                                         15,16,17,18,19),visible=FALSE))
+                                                         15,16,17),visible=FALSE))
     ))))
   
   observe({

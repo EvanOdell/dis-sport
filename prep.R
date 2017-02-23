@@ -156,7 +156,7 @@ dis_sport$income <- as.numeric(dis_sport$income)
 dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main", "aob",
                           "region", "address", "phone", "web", "disability",
                           "people_with_disabilities","amateur_sport", "recreation",
-                          "income","incomedate", "latitude", "longitude")]
+                          "latitude", "longitude")]
 
 write_rds(dis_sport, "./data/dis_sport.rds")
 
