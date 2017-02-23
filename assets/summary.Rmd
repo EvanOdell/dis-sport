@@ -19,7 +19,7 @@ To see more columns, click on the 'Column Visibility' button on the upper left s
 
 To reset the map, click on the 'Reset Search' button on the right side of the page.
 
-This app has the function to filter charities by income, which is useful if you are looking for charities of a particular size. Note that leaving these filters blank can cause errors in the app. The default values are set to the minimum and maximum incomes of all charities you can search.
+Previous versions of this app had the function to filter charities by income, but this was removed in an attempt to speed up processing times. If you would like this restored please contact [Evan Odell](mailto:evan.odell@disabilityrightsuk.org).
 
 ### Download Information
 

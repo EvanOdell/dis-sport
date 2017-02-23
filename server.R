@@ -42,7 +42,7 @@ shinyServer(function(input, output, session) {
     lngRng <- range(bounds$east, bounds$west)
     
     if(input$show_main==TRUE)
-      dis_sport <- dis_sport[dis_sport$main=="TRUE",]
+      dis_sport <- subset(dis_sport, main=="TRUE")
 
     dataSet <- dis_sport[dis_sport$category %in% input$category_input
                          & dis_sport$latitude >= latRng[1] 
