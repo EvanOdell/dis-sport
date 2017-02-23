@@ -60,23 +60,24 @@ shinyServer(function(input, output, session) {
     
     },
     filter = 'top',
-    colnames = c('Registration Number'='regno',
+    colnames = c('Registration Number'= 'regno',
                'Primary Charity' = 'main',
-               'Name' ='name',
-               'Area of Benefit' ='area_of_benefit',
-               'District' ='district',
-               'Region' ='region',
-               'Address' ='address',
-               'Phone' ='phone',
-               'Website' ='web',
-               'Disability' ='disability',
-               'People with Disabilities'='people_with_disabilities',
-               'Amateur Sport'='amateur_sport',          
-               'Recreation' ='recreation',
+               'Name' = 'name',
+               'Area of Benefit' = 'area_of_benefit',
+               'Charitable Object' = 'object',
+               'District' = 'district',
+               'Region' = 'region',
+               'Address' = 'address',
+               'Phone' = 'phone',
+               'Website' = 'web',
+               'Disability' = 'disability',
+               'People with Disabilities'= 'people_with_disabilities',
+               'Amateur Sport'= 'amateur_sport',          
+               'Recreation' = 'recreation',
                'Category' = 'category',
-               'Subsidiary Number'='subno',
-               'Latitude'='latitude',
-               'Longitude'='longitude'),
+               'Subsidiary Number'= 'subno',
+               'Latitude'= 'latitude',
+               'Longitude'= 'longitude'),
     
     extensions = c('FixedHeader','Buttons'),
     escape = FALSE,
@@ -151,7 +152,7 @@ shinyServer(function(input, output, session) {
       
       s2 <- input$ds_dt_rows_all
       
-      dataSet$web <- gsub("<a href='", "", dataSet$web)
+      dataSet$web <- gsub("<a href= '", "", dataSet$web)
       
       dataSet$web <- gsub("'>.*", "", dataSet$web)
       
