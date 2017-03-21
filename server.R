@@ -6,9 +6,9 @@ library(readr)
 
 shinyServer(function(input, output, session) {
   
-  dis_sport<- readRDS("./data/dis_sport.rds")
+  dis_sport<- read_rds("./data/dis_sport.rds")
   
-  GYA <- readRDS("./data/GYA.rds")
+  GYA <- read_rds("./data/GYA.rds")
   
   GYA_Icon <- makeIcon("./img/GYA.png","./img/GYA.png",25,25)
   

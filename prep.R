@@ -1,19 +1,20 @@
 
 
-library(plyr)
+
 library(dplyr)
 library(DBI)
 library(data.table)
+library(readr)
 
 rm(list=ls())
 
-connection <-src_postgres(dbname = "charity",  options="-c search_path=charity") ## This data is stored in a local database. For a guide to setting up a database yourself, please see: https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/
+connection <-src_postgres(user = "evan", password = "jaguar1", dbname = "charity",  options="-c search_path=charity") ## This data is stored in a local database. For a guide to setting up a database yourself, please see: https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/
 
 gya_table <- tbl(connection, "gya_prospects")
 
 dis_sport <- as.data.frame(gya_table)
 
-##summary(dis_sport)
+summary(dis_sport)
 
 names(dis_sport)[names(dis_sport)=="string_agg"] <- "object"
 
@@ -124,5 +125,8 @@ dis_sport[cols2] <- lapply(dis_sport[cols2], factor)
 dis_sport <- data.table(dis_sport)
 
 write_rds(dis_sport, "./data/dis_sport.rds")
+
+
+
 
 
