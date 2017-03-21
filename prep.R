@@ -157,6 +157,9 @@ dis_sport <- dis_sport[,c("regno", "name","category","district", "subno", "main"
                           "people_with_disabilities","amateur_sport", "recreation",
                           "income","incomedate", "latitude", "longitude")]
 
+dis_sport$latitude <- as.numeric(dis_sport$latitude)
+dis_sport$longitude <- as.numeric(dis_sport$longitude)
+
 write_rds(dis_sport, "./data/dis_sport.rds")
 
 
