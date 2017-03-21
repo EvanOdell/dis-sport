@@ -19,11 +19,11 @@ To see more columns, click on the 'Column Visibility' button on the upper left s
 
 To reset the map, click on the 'Reset Search' button on the right side of the page.
 
-This app has the function to filter charities by income, which is useful if you are looking for charities of a particular size. Note that leaving these filters blank can cause errors in the app. The default values are set to the minimum and maximum incomes of all charities you can search.
+Previous versions of this app had the function to filter charities by income, but this was removed in an attempt to speed up processing times. If you would like this restored, would like to see any other features, or want to have similar maps with other information, please contact [Evan Odell](mailto:evan.odell@disabilityrightsuk.org).
 
 ### Download Information
 
-To download information from this map in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app. The spreadsheet will contain all charities that are contained in the table at the moment you click the button, even if they are not on the front page of the table.
+To download information from this map in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app. The spreadsheet will contain all charities that are contained in the table at the moment you click the button, even if they are not on the front page of the table. You can also download this data as a TSV file if you prefer, which can also be opened in Excel.
 
 ### Assistance
 

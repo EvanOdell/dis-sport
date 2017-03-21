@@ -6,9 +6,9 @@ library(readr)
 
 shinyServer(function(input, output, session) {
   
-  dis_sport<- readRDS("./data/dis_sport.rds")
+  dis_sport<- read_rds("./data/dis_sport.rds")
   
-  GYA <- readRDS("./data/GYA.rds")
+  GYA <- read_rds("./data/GYA.rds")
   
   GYA_Icon <- makeIcon("./img/GYA.png","./img/GYA.png",25,25)
   
@@ -27,6 +27,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$mymap <- renderLeaflet({
+    
     leaflet() %>%
       addTiles() %>%
       setView(lng = -2.547855, lat = 54.00366, zoom = 5)
@@ -42,7 +43,7 @@ shinyServer(function(input, output, session) {
     lngRng <- range(bounds$east, bounds$west)
     
     if(input$show_main==TRUE)
-      dis_sport <- dis_sport[dis_sport$main=="TRUE",]
+      dis_sport <- subset(dis_sport, main=="TRUE")
 
     dataSet <- dis_sport[dis_sport$category %in% input$category_input
                          & dis_sport$latitude >= latRng[1] 
@@ -54,31 +55,30 @@ shinyServer(function(input, output, session) {
   })
   
   output$ds_dt = renderDataTable(datatable({
-      dataSet<-getDataSet()
+      dataSet <- getDataSet()
       
       #dataSet
     
     },
     filter = 'top',
-    colnames = c('Registration Number'='regno',
+    colnames = c('Registration Number'= 'regno',
                'Primary Charity' = 'main',
-               'Name' ='name',
-               'Area of Benefit' ='aob',
-               'District' ='district',
-               'Region' ='region',
-               'Address' ='address',
-               'Phone' ='phone',
-               'Website' ='web',
-               'Disability' ='disability',
-               'People with Disabilities'='people_with_disabilities',
-               'Amateur Sport'='amateur_sport',          
-               'Recreation' ='recreation',
+               'Name' = 'name',
+               'Area of Benefit' = 'area_of_benefit',
+               'Charitable Object' = 'object',
+               'District' = 'district',
+               'Region' = 'region',
+               'Address' = 'address',
+               'Phone' = 'phone',
+               'Website' = 'web',
+               'Disability' = 'disability',
+               'People with Disabilities'= 'people_with_disabilities',
+               'Amateur Sport'= 'amateur_sport',          
+               'Recreation' = 'recreation',
                'Category' = 'category',
-               'Subsidiary Number'='subno',
-               'Income'='income',
-               'Income Reporting Date'='incomedate',
-               'Latitude'='latitude',
-               'Longitude'='longitude'),
+               'Subsidiary Number'= 'subno',
+               'Latitude'= 'latitude',
+               'Longitude'= 'longitude'),
     
     extensions = c('FixedHeader','Buttons'),
     escape = FALSE,
@@ -91,11 +91,11 @@ shinyServer(function(input, output, session) {
       autoWidth = FALSE,
       columnDefs = list(list(visible=FALSE, targets=list(0,5,6,7,8,9,10,
                                                         11,12,13,14,15,16,
-                                                        17,18,19))),
+                                                        17,18))),
       dom = 'Blfrtip',
       buttons = c(list(list(extend = 'colvis', columns = c(1,2,3,4,5,6,7,8,
                                                          9,10,11,12,13,14,
-                                                         15,16,17,18,19),visible=FALSE))
+                                                         15,16,17,18),visible=FALSE))
     ))))
   
   observe({
@@ -112,8 +112,10 @@ shinyServer(function(input, output, session) {
                                                      "Website: ", web)),
                            group="GYA")
     } else {
+      
       proxy %>% clearGroup(group="GYA")
-    }
+    
+      }
     
   })
   
@@ -122,9 +124,12 @@ shinyServer(function(input, output, session) {
     dataSet<-getDataSet() 
     
     filteredData <- reactive({
-      s2 = input$ds_dt_rows_all
+      
+      s2 <- input$ds_dt_rows_all
+      
       dataSet[s2, , drop = FALSE]
-    })
+    
+      })
     
     leafletProxy("mymap", data = filteredData()) %>%
       clearGroup(group="charities") %>%
@@ -141,12 +146,23 @@ shinyServer(function(input, output, session) {
                  group="charities",
                  clusterOptions = markerClusterOptions())
     
-    output$downloadData <- downloadHandler(
-      filename = function() {paste('disability_sport', Sys.Date(), '.csv', sep='')},
-      content = function(file) {
-        write_csv(filteredData(), file)
-      }
-    )
+    
+    
+
+    output$download_data = downloadHandler(paste0('disability_sport_', Sys.Date(),".csv"), content = function(file) {
+      
+      s2 <- input$ds_dt_rows_all
+      
+      dataSet$web <- gsub("<a href= '", "", dataSet$web)
+      
+      dataSet$web <- gsub("'>.*", "", dataSet$web)
+      
+      #dataSet$web <- gsub("</a>*", "", dataSet$web)
+      
+      write_csv(dataSet[s2, , drop = FALSE], file)
+      
+    })
+    
     
   })
   
