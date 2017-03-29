@@ -124,6 +124,9 @@ dis_sport[cols2] <- lapply(dis_sport[cols2], factor)
 
 dis_sport <- data.table(dis_sport)
 
+dis_sport$latitude <- as.numeric(dis_sport$latitude)
+dis_sport$longitude <- as.numeric(dis_sport$longitude)
+
 write_rds(dis_sport, "./data/dis_sport.rds")
 
 
