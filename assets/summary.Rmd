@@ -23,7 +23,7 @@ Previous versions of this app had the function to filter charities by income, bu
 
 ### Download Information
 
-To download information from this map in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app. The spreadsheet will contain all charities that are contained in the table at the moment you click the button, even if they are not on the front page of the table. You can also download this data as a TSV file if you prefer, which can also be opened in Excel.
+To download information from this map in a CSV file format, which can be opened in Excel or other spreadsheet programmes, click the 'Download CSV File' button on the right-hand side of the app. The spreadsheet will contain all charities that are contained in the table at the moment you click the button, even if they are not on the front page of the table.
 
 ### Assistance
 
