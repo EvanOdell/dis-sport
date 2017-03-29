@@ -6,11 +6,7 @@ library(DBI)
 library(data.table)
 library(readr)
 
-rm(list=ls())
-
-connection <-src_postgres(user = "evan", password = "jaguar1", dbname = "charity",  options="-c search_path=charity") ## This data is stored in a local database. For a guide to setting up a database yourself, please see: https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/
-
-gya_table <- tbl(connection, "gya_prospects")
+gya_table <- read_csv("gya_prospects.csv")
 
 dis_sport <- as.data.frame(gya_table)
 

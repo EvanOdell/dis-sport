@@ -1,9 +1,9 @@
 -   [Creating the dis-sport map](#creating-the-dis-sport-map)
     -   [The tools you need](#the-tools-you-need)
-    -   [Accessing the data](#accessing-the-data)
-        -   [1. From the Charity Commission](#from-the-charity-commission)
-        -   [2. From evanodell.com](#from-evanodell.com)
         -   [Postcodes](#postcodes)
+    -   [Accessing the data](#accessing-the-data)
+        -   [Option 1: From evanodell.com](#option-1-from-evanodell.com)
+        -   [Option 2: From the Charity Commission](#option-2-from-the-charity-commission)
     -   [Setting up the database](#setting-up-the-database)
     -   [Creating the dataset](#creating-the-dataset)
 
@@ -14,7 +14,7 @@ Creating the dis-sport map
 The tools you need
 ------------------
 
-You will have to install a few programs to create these visuals. All of these programs are
+You will have to install a few programs to create the interactive map. All of these programs are free and open source.
 
 1.  R, a programming language, download [here](https://cran.r-project.org/).
 
@@ -24,22 +24,22 @@ You will have to install a few programs to create these visuals. All of these pr
 
 4.  A database manager. I recommend [DBeaver](dbeaver.jkiss.org/download/), but a range of options are available.
 
+### Postcodes
+
+You will also need postcode latitude and longitude data. Download the England postcodes file from [Doogal](https://www.doogal.co.uk/PostcodeDownloads.php). It is labelled as 'single file that is too large for Excel - England', which is okay because you won't need to open it in Excel. Once downloaded, rename the file to `england_postcodes.csv`.
+
 Accessing the data
 ------------------
 
 There are two ways to access the data used to make this map:
 
-### 1. From the Charity Commission
-
-The first is from the [Charity Commission](http://data.charitycommission.gov.uk/) data download. The NCVO has a guide to accessing this data [here](https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/), with more extensive documentation and code [here](https://github.com/ncvo/charity-commission-extract/).
-
-### 2. From evanodell.com
+### Option 1: From evanodell.com
 
 I've put cleaned and ready-to-go copies of all the CSV files you need on [my website](http://evanodell.com/datasets/charity-data/). They will typically be available within a week of the latest Charity Commission release. I reccomend using this data, as it has been formatted for Postgres.
 
-### Postcodes
+### Option 2: From the Charity Commission
 
-You will also need postcode latitude and longitude data. Download the England postcodes file from [Doogal](https://www.doogal.co.uk/PostcodeDownloads.php). It is labelled as 'single file that is too large for Excel - England', which is okay because you won't need to open it in Excel. Once downloaded, rename the file to `england_postcodes.csv`.
+The data is taken from the [Charity Commission](http://data.charitycommission.gov.uk/) data download, which you can access directly if you wish. The NCVO has a guide to accessing this data [here](https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/), with more extensive documentation and code [here](https://github.com/ncvo/charity-commission-extract/).
 
 Setting up the database
 -----------------------
@@ -63,7 +63,7 @@ You don't need all the charity commission data files to create the dataset for t
 
 6.  `england_postcodes`
 
-Load these files into your database using DBeaver. DBeaver will automatically create new database tables. Set the datatype of all columns in `extract_class` and `extract_class` to text.
+Load these files into your database using DBeaver. DBeaver will connect to your local Postgres database if your user has been given permission to access it. DBeaver will automatically create new database tables. Set the datatype of all columns in `extract_class` and `extract_class` to text.
 
 You will also need to install the [tablefunc](https://www.postgresql.org/docs/9.1/static/tablefunc.html) extension for Postgres, see [here](https://www.postgresql.org/docs/9.1/static/sql-createextension.html) for a guide to installing extensions.
 
