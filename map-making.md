@@ -1,50 +1,44 @@
----
-title: "R Notebook"
-output:
-  github_document:
-    html_preview: yes
-  html_notebook: default
----
+R Notebook
+================
 
+Creating the dis-sport map
+==========================
 
-# Creating the dis-sport map
-
-## The tools you need
+The tools you need
+------------------
 
 You will have to install a few programs to create the interactive map. All of these programs are free and open source.
 
-1. R, a programming language, download [here](https://cran.r-project.org/).
+1.  R, a programming language, download [here](https://cran.r-project.org/).
 
-2. RStudio, a program providing an easier-to-use interface for R, [download here](https://www.rstudio.com/products/RStudio/). You'll need the desktop version, not the server version.
+2.  RStudio, a program providing an easier-to-use interface for R, [download here](https://www.rstudio.com/products/RStudio/). You'll need the desktop version, not the server version.
 
-3. Python, a programming language, download [here](https://www.python.org/downloads/windows/). You can download either 2.7 or 3.5+.
+3.  Python, a programming language, download [here](https://www.python.org/downloads/windows/). You can download either 2.7 or 3.5+.
 
-4. A [shinyapps.io](http://www.shinyapps.io/) account. This app will eventually be available at *username*.shinyapps.io/dis-sport.
+4.  A [shinyapps.io](http://www.shinyapps.io/) account. This app will eventually be available at *username*.shinyapps.io/dis-sport.
 
-## Accessing the data from the charity commission
+Accessing the data from the charity commission
+----------------------------------------------
 
 The data is taken from the [Charity Commission](http://data.charitycommission.gov.uk/) data release. Download the 'Charity register extract' file.
 
 The NCVO has a guide to accessing this data [here](https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/), with more extensive documentation and code [here](https://github.com/ncvo/charity-commission-extract/).
 
-
 #### Data Prep
 
-Copy the most recent zip file, named `RegPlusExtract_***_****.zip`, into this folder. 
+Copy the most recent zip file, named `RegPlusExtract_***_****.zip`, into this folder.
 
 Run the code below, renaming the `RegPlusExtract_May_2017.zip` section to the name of the most recently downloaded zip file.
 
 You can run this code by pressing the green play button on the right side of the screen:
 
-```{r Python Calling, echo=TRUE, message=FALSE, warning=FALSE}
+``` r
 system("cmd.exe", input = "python ./pyscripts/import.py RegPlusExtract_May_2017.zip")
 ```
 
 This will output 15 CSV files to your working directory. The code below will prepare the dataset you need to run the disability and sport map. It may take a while to execute, depending on how long it has been since you last ran it. The programme checks to see how old your postcode data is, and if it is more than 90 days old it imports new data, which can take a while to download, as the file is about 650mb.
 
-
-```{r, message=FALSE, warning=FALSE, eval=FALSE}
-
+``` r
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(readr, stringi, magrittr, dplyr, shiny, leaflet, shinydashboard, DT, shinyjs)
 
@@ -203,16 +197,10 @@ rm(cols2)
 dis_sport <- dis_sport[,c("regno", "subno", "name", "area_of_benefit",  "disability", "people_with_disabilities", "amateur_sport", "recreation", "object", "latitude", "longitude", "district","region", "category","address", "web", "phone", "main")]
 
 write_rds(dis_sport, "./data/dis_sport.rds")
-
-
 ```
-
-
 
 ### Publishing the App
 
 Once you have run the big chunk of code above, click on the app.R file, and click the blue publish button in the upper right corner. This will publish the app to your [shinyapps.io](http://www.shinyapps.io/) account, and will be available at *username*.shinyapps.io/dis-sport.
 
-
 And that is it, it is now fully updated and ready to go.
-
