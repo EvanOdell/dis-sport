@@ -1,0 +1,216 @@
+---
+title: "R Notebook"
+output:
+  html_notebook: default
+---
+
+
+# Creating the dis-sport map
+
+## The tools you need
+
+You will have to install a few programs to create the interactive map. All of these programs are free and open source.
+
+1. R, a programming language, download [here](https://cran.r-project.org/).
+
+2. RStudio, a program providing an easier-to-use interface for R, [download here](https://www.rstudio.com/products/RStudio/). You'll need the desktop version, not the server version.
+
+3. Python, a programming language, download [here](https://www.python.org/downloads/windows/). You can download either 2.7 or 3.5+.
+
+4. A [shinyapps.io](http://www.shinyapps.io/) account. This app will eventually be available at *username*.shinyapps.io/dis-sport.
+
+## Accessing the data from the charity commission
+
+The data is taken from the [Charity Commission](http://data.charitycommission.gov.uk/) data release. Download the 'Charity register extract' file.
+
+The NCVO has a guide to accessing this data [here](https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/), with more extensive documentation and code [here](https://github.com/ncvo/charity-commission-extract/).
+
+
+#### Data Prep
+
+Copy the most recent zip file, named `RegPlusExtract_***_****.zip`, into this folder. 
+
+Run the code below, renaming the `RegPlusExtract_May_2017.zip` section to the name of the most recently downloaded zip file.
+
+You can run this code by pressing the green play button on the right side of the screen:
+
+```{r Python Calling, echo=TRUE, message=FALSE, warning=FALSE}
+system("cmd.exe", input = "python ./pyscripts/import.py RegPlusExtract_May_2017.zip")
+```
+
+This will output 15 CSV files to your working directory. The code below will prepare the dataset you need to run the disability and sport map. It may take a while to execute, depending on how long it has been since you last ran it. The programme checks to see how old your postcode data is, and if it is more than 90 days old it imports new data, which can take a while to download, as the file is about 650mb.
+
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(readr, stringi, magrittr, dplyr, shiny, leaflet, shinydashboard, DT, shinyjs)
+
+extract_objects <- read_csv("extract_objects.csv")
+
+extract_objects$object <- gsub("([:000:])([[:digit:]])", "", extract_objects$object)
+
+extract_proper_object <- extract_objects %>% 
+  group_by(regno, subno) %>% 
+  summarise(object = paste(object, collapse = ""))
+
+rm(extract_objects)
+
+extract_proper_object$object <- stri_trans_general(extract_proper_object$object, id = "Title")
+
+extract_class_ref <- read_csv("extract_class_ref.csv")
+
+extract_class <- read_csv("extract_class.csv")
+
+class_name_regno <- extract_class %>% left_join(extract_class_ref, by=c("class"="classno"))
+
+class_name_regno <- subset(class_name_regno, class==203 | class==104 |class==110 |class==116)
+
+disability_df <- subset(class_name_regno, class==104)
+
+people_with_disabilities_df <- subset(class_name_regno, class==203)
+
+amateur_sport_df <- subset(class_name_regno, class==110)
+
+recreation_df <- subset(class_name_regno, class==116)
+
+rm(extract_class, extract_class_ref)
+
+extract_charity <- read_csv("extract_charity.csv")
+
+extract_charity2 <- extract_charity[extract_charity$regno %in% class_name_regno$regno,]
+
+extract_charity2$disability <- extract_charity2$regno %in% disability_df$regno
+
+extract_charity2$people_with_disabilities <- extract_charity2$regno %in% people_with_disabilities_df$regno
+
+extract_charity2$amateur_sport <- extract_charity2$regno %in% amateur_sport_df$regno
+
+extract_charity2$recreation <- extract_charity2$regno %in% recreation_df$regno
+
+extract_charity2$any_disability <- ifelse(extract_charity2$people_with_disabilities == TRUE |
+                                   extract_charity2$disability == TRUE,
+                                   TRUE, FALSE)
+
+extract_charity2$any_sport <- ifelse(extract_charity2$amateur_sport == TRUE |
+                                   extract_charity2$recreation == TRUE,
+                                   TRUE, FALSE)
+
+extract_charity2$both_cats <- ifelse(extract_charity2$any_disability == TRUE &
+                                   extract_charity2$any_sport == TRUE,
+                                   TRUE, FALSE)
+
+rm(disability_df, people_with_disabilities_df, amateur_sport_df, recreation_df, extract_charity, class_name_regno)
+
+extract_main_charity <- read_csv("extract_main_charity.csv")
+
+extract_acct_submit <- read_csv("extract_acct_submit.csv")
+
+extract_charity2 <- extract_charity2 %>% left_join(extract_acct_submit) %>% left_join(extract_proper_object) %>% left_join(extract_main_charity)
+
+rm(extract_acct_submit, extract_proper_object,extract_main_charity)
+
+cutoff <- as.POSIXct(Sys.Date()-548)
+
+extract_charity2 <- extract_charity2[extract_charity2$submit_date >= cutoff & is.na(extract_charity2$submit_date)==FALSE, ]
+
+extract_charity2 <- extract_charity2[rev(order(extract_charity2$submit_date)),]
+
+extract_charity2 <- extract_charity2 %>% distinct(regno, .keep_all = TRUE)
+
+extract_charity2$category <- NA
+
+extract_charity2$category[extract_charity2$any_disability == TRUE & extract_charity2$both_cats==FALSE] <- "Disability"
+
+extract_charity2$category[extract_charity2$both_cats == TRUE] <- "Disability and Sport"
+
+extract_charity2$category[extract_charity2$any_sport == TRUE & extract_charity2$both_cats==FALSE] <- "Sport"
+
+eng_dest <- "england_postcodes.csv"
+
+if(!file.exists(eng_dest)){
+  
+    res <- tryCatch(download.file("https://www.doogal.co.uk/UKPostcodesCSV.ashx?country=England",
+                              destfile=eng_dest,
+                              method="auto"),
+                error=function(e) 1)
+    
+} else {
+  
+  eng_info <- file.info(eng_dest)
+  
+  if(difftime(Sys.Date(), eng_info$mtime, units="days")>90) {
+  
+  download.file("https://www.doogal.co.uk/UKPostcodesCSV.ashx?country=England",
+                              destfile=eng_dest,
+                              method="auto")
+    }
+  
+}
+
+rm(eng_dest, eng_info)
+
+england_postcodes <- read_csv("england_postcodes.csv")
+
+names(england_postcodes) <- gsub("([[:lower:]])([[:upper:]])", "\\1_\\2", names(england_postcodes))
+
+names(england_postcodes) <- gsub("([[:lower:]]) ([[:lower:]])", "\\1_\\2", names(england_postcodes))
+
+names(england_postcodes) <- tolower(names(england_postcodes))
+
+names(england_postcodes)[names(england_postcodes)=="in use?"] <- "in_use"
+
+names(england_postcodes)[names(england_postcodes)=="built_up_sub-division"] <- "built_up_subdivision"
+
+england_postcodes <- england_postcodes[,c("postcode", "latitude", "longitude", "region", "district")]
+
+dis_sport <- extract_charity2 %>% left_join(england_postcodes)
+
+rm(extract_charity2, england_postcodes)
+
+dis_sport <- dis_sport[is.na(dis_sport$latitude)==FALSE,]
+
+dis_sport$web <- paste0("<a href='", dis_sport$web, "'>", dis_sport$web, "</a>")
+
+dis_sport$web <- gsub("<a href='NA'>NA</a>", "", dis_sport$web)
+
+dis_sport$address <- paste(dis_sport$add1, dis_sport$add2, dis_sport$add3,
+                           dis_sport$add4, dis_sport$add5)
+
+#Turning to title case
+dis_sport$object <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$object), perl=TRUE)
+
+dis_sport$address <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$address), perl=TRUE)
+
+dis_sport$aob <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$aob), perl=TRUE)
+
+dis_sport$name <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$name), perl=TRUE)
+
+dis_sport$address <- gsub(" Na","",dis_sport$address)
+
+names(dis_sport)[names(dis_sport)=="aob"] <- "area_of_benefit"
+
+dis_sport$main <- ifelse(dis_sport$subno == 0, TRUE, FALSE)
+
+cols2 <- c("category","main", "region", "disability","people_with_disabilities","amateur_sport", "recreation")
+
+dis_sport[cols2] <- lapply(dis_sport[cols2], factor)
+
+rm(cols2)
+
+dis_sport <- dis_sport[,c("regno", "subno", "name", "area_of_benefit",  "disability", "people_with_disabilities", "amateur_sport", "recreation", "object", "latitude", "longitude", "district","region", "category","address", "web", "phone", "main")]
+
+write_rds(dis_sport, "./data/dis_sport.rds")
+
+
+```
+
+
+
+### Publishing the App
+
+Once you have run the big chunk of code above, click on the app.R file, and click the blue publish button in the upper right corner. This will publish the app to your [shinyapps.io](http://www.shinyapps.io/) account, and will be available at *username*.shinyapps.io/dis-sport.
+
+
+And that is it, it is now fully updated and ready to go.
+
