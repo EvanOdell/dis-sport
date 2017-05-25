@@ -24,8 +24,8 @@ tags$head(
 )
 
 body <- dashboardBody(
-  #h4(a(icon("futbol-o"),"Return to getyourselfactive.org", href="http://getyourselfactive.org")),
-  #h5(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/")),
+  h3(strong(a(icon("futbol-o"),"Return to getyourselfactive.org", href="http://getyourselfactive.org"))),
+  h4(strong(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/"))),
   fluidRow(column(width = 8,offset = 1,
                   box(
                     width = NULL, solidHeader = TRUE,
