@@ -24,8 +24,8 @@ tags$head(
 )
 
 body <- dashboardBody(
-  #h4(a(icon("futbol-o"),"Return to getyourselfactive.org", href="http://getyourselfactive.org")),
-  #h5(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/")),
+  h3(strong(a(icon("futbol-o"),"Return to getyourselfactive.org", href="http://getyourselfactive.org"))),
+  h4(strong(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/"))),
   fluidRow(column(width = 8,offset = 1,
                   box(
                     width = NULL, solidHeader = TRUE,
@@ -39,8 +39,8 @@ body <- dashboardBody(
                box(width=NULL, 
                    checkboxGroupInput("category_input",
                                       "Category",c("Disability and Sport"='Disability and Sport',
-                                                   "Disability"="Disability",
-                                                   "Sport"="Sport"),
+                                                   "Just Disability"="Disability",
+                                                   "Just Sport"="Sport"),
                                       selected = "Disability and Sport")),
                box(width=NULL, h5("Options"),
                    checkboxInput("show_penguins",
