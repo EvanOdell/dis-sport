@@ -17,16 +17,13 @@ You will have to install a few programs to create the interactive map. All of th
 
 4.  A [shinyapps.io](http://www.shinyapps.io/) account. This app will eventually be available at *username*.shinyapps.io/dis-sport.
 
-Accessing the data from the charity commission
-----------------------------------------------
+5.  The code needed to create this map. Fork the [repository](https://github.com/disabilityrightsUK/dis-sport), or [download the zip-file](https://github.com/disabilityrightsUK/dis-sport/archive/master.zip), which you can open in RStudio.
 
-The data is taken from the [Charity Commission](http://data.charitycommission.gov.uk/) data release. Download the 'Charity register extract' file.
-
-The NCVO has a guide to accessing this data [here](https://data.ncvo.org.uk/a/almanac16/how-to-create-a-database-for-charity-commission-data/), with more extensive documentation and code [here](https://github.com/ncvo/charity-commission-extract/).
+6.  Charity Commission data, which you can download [here](http://data.charitycommission.gov.uk/). Download the 'Charity register extract' zip file.
 
 #### Data Prep
 
-Copy the most recent zip file, named `RegPlusExtract_***_****.zip`, into this folder.
+Copy the most recent zip file, named `RegPlusExtract_***_****.zip`, into the `dis-sport` folder, which I also refer to as the 'working directory'.
 
 Run the code below, renaming the `RegPlusExtract_May_2017.zip` section to the name of the most recently downloaded zip file.
 
