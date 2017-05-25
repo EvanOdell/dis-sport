@@ -33,6 +33,6 @@ If you have any suggestions, questions or comments, please contact [Evan Odell](
 
 Source code is available on [Github](https://github.com/EvanOdell/dis-sport).
 
-This app is licensed under an [MIT License](https://github.com/EvanOdell/dis-sport/blob/master/licence). Charity data is taken from the [Charity Commission data download](http://data.charitycommission.gov.uk/), and is licensed under the Open Government Licence v3.0. This data is accurate as of the March 2017 Charity Commission Bulk Data release, and includes all charities that include amateur sport and recreation, disability and disabled people, or both, in their area of focus, and have financial filings dated on or after 2015-06-01.
+This app is licensed under an [MIT License](https://github.com/EvanOdell/dis-sport/blob/master/licence). Charity data is taken from the [Charity Commission data download](http://data.charitycommission.gov.uk/), and is licensed under the Open Government Licence v3.0. This data is accurate as of the May 2017 Charity Commission Bulk Data release, and includes all charities that include amateur sport and recreation, disability and disabled people, or both, in their area of focus, and have updated their charity commission accounts within the last 18 months.
 
 
