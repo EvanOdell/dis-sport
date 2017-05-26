@@ -3,9 +3,9 @@ title: dis-sport
 account: evanodell
 server: shinyapps.io
 appId: 142577
-bundleId: 840316
+bundleId: 840548
 url: https://evanodell.shinyapps.io/dis-sport/
-when: 1495703491.70448
+when: 1495720451.42648
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: pyscripts/.gitignore|pyscripts/bcp.py|pyscripts/beginners-guide.md|pyscripts/cc-extract-template.accdt|pyscripts/import.py|pyscripts/massedit.py|pyscripts/quoteSearch.py|pyscripts/README.md|pyscripts/table-definition.csv|pyscripts/table-definition.sql|pyscripts/test_bcp.py|pyscripts/.idea/misc.xml|pyscripts/.idea/modules.xml|pyscripts/.idea/pyScripts.iml|pyscripts/.idea/workspace.xml|pyscripts/.idea/inspectionProfiles/profiles_settings.xml|pyscripts/.idea/inspectionProfiles/Project_Default.xml|pyscripts/__pycache__/bcp.cpython-35.pyc
