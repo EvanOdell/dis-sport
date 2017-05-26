@@ -1,4 +1,4 @@
-R Notebook
+Making the disability & sport interactive map, using Shiny and Leaflet in R
 ================
 
 Creating the dis-sport map
@@ -178,6 +178,8 @@ dis_sport$address <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$address
 dis_sport$aob <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$aob), perl=TRUE)
 
 dis_sport$name <- gsub("(?<=\\b)([a-z])", "\\U\\1", tolower(dis_sport$name), perl=TRUE)
+
+dis_sport$name <- gsub(" Uk", " UK", dis_sport$name)
 
 dis_sport$address <- gsub(" Na","",dis_sport$address)
 

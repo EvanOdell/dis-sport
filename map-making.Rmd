@@ -1,5 +1,5 @@
 ---
-title: "R Notebook"
+title: "Making the disability & sport interactive map, using Shiny and Leaflet in R"
 output:
   github_document:
     html_preview: yes
