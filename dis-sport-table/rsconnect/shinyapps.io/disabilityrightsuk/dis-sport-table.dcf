@@ -1,0 +1,12 @@
+name: dis-sport-table
+title: dis-sport-table
+username:
+account: disabilityrightsuk
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 188657
+bundleId: 1010288
+url: https://disabilityrightsuk.shinyapps.io/dis-sport-table/
+when: 1507115821.5707
+asMultiple: FALSE
+asStatic: FALSE

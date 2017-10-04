@@ -25,12 +25,12 @@ You will have to install a few programs to create the interactive map. All of th
 
 Copy the most recent zip file, named `RegPlusExtract_***_****.zip`, into the `dis-sport` folder, which I also refer to as the 'working directory'.
 
-Run the code below, renaming the `RegPlusExtract_May_2017.zip` section to the name of the most recently downloaded zip file.
+Run the code below, renaming the `RegPlusExtract_July_2017.zip` section to the name of the most recently downloaded zip file.
 
 You can run this code by pressing the green play button on the right side of the screen:
 
 ``` r
-system("cmd.exe", input = "python ./pyscripts/import.py RegPlusExtract_May_2017.zip")
+system("cmd.exe", input = "python ./pyscripts/import.py RegPlusExtract_July_2017.zip")
 ```
 
 This will output 15 CSV files to your working directory. The code below will prepare the dataset you need to run the disability and sport map. It may take a while to execute, depending on how long it has been since you last ran it. The programme checks to see how old your postcode data is, and if it is more than 90 days old it imports new data, which can take a while to download, as the file is about 650mb.
@@ -50,6 +50,8 @@ extract_proper_object <- extract_objects %>%
 rm(extract_objects)
 
 extract_proper_object$object <- stri_trans_general(extract_proper_object$object, id = "Title")
+
+write_csv(extract_proper_object, "extract_proper_object.csv")
 
 extract_class_ref <- read_csv("extract_class_ref.csv")
 
@@ -119,7 +121,7 @@ extract_charity2$category[extract_charity2$both_cats == TRUE] <- "Disability and
 
 extract_charity2$category[extract_charity2$any_sport == TRUE & extract_charity2$both_cats==FALSE] <- "Sport"
 
-eng_dest <- "england_postcodes.csv"
+eng_dest <- "England postcodes.csv"
 
 if(!file.exists(eng_dest)){
   
@@ -143,7 +145,7 @@ if(!file.exists(eng_dest)){
 
 rm(eng_dest, eng_info)
 
-england_postcodes <- read_csv("england_postcodes.csv")
+england_postcodes <- read_csv("England postcodes.csv")
 
 names(england_postcodes) <- gsub("([[:lower:]])([[:upper:]])", "\\1_\\2", names(england_postcodes))
 
@@ -193,9 +195,13 @@ dis_sport[cols2] <- lapply(dis_sport[cols2], factor)
 
 rm(cols2)
 
-dis_sport <- dis_sport[,c("regno", "subno", "name", "area_of_benefit",  "disability", "people_with_disabilities", "amateur_sport", "recreation", "object", "latitude", "longitude", "district","region", "category","address", "web", "phone", "main")]
+dis_sport <- dis_sport[,c("name", "object", "latitude", "longitude", "district","region", "category","address", "web", "phone")]
 
 write_rds(dis_sport, "./data/dis_sport.rds")
+
+dis_sport_table <- dis_sport[,c("name", "object", "district","region", "category","address", "web", "phone")]
+
+write_rds(dis_sport_table, "./dis-sport-table/data/dis_sport_table.rds")
 ```
 
 ### Publishing the App

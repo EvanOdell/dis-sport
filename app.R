@@ -13,9 +13,7 @@ library(leaflet)
 library(DT)
 library(readr)
 
-
-# Define UI for application that draws a histogram
-header <- dashboardHeader(title='Disability Sport Charities',
+header <- dashboardHeader(title='Disability Sport Charities Map',
                              titleWidth = 350)
 
 shinyjs::useShinyjs()
@@ -25,6 +23,7 @@ tags$head(
 
 body <- dashboardBody(
   h3(strong(a(icon("futbol-o"),"Return to getyourselfactive.org", href="http://getyourselfactive.org"))),
+  h3(strong(a(icon("table"),"Check out this data as a table", href="https://disabilityrightsuk.shinyapps.io/dis-sport-table/"))),
   #h4(strong(a(icon("home"),"Return to evanodell.com", href="http://shiny.evanodell.com/"))),
   fluidRow(column(width = 8,offset = 1,
                   box(
@@ -121,7 +120,7 @@ server <- function(input, output, session) {
     filter = 'top',
     colnames = c('Name' = 'name',
                  'Charitable Object' = 'object',
-                 'District' = 'district',
+                 'Local Authority' = 'district',
                  'Region' = 'region',
                  'Address' = 'address',
                  'Phone' = 'phone',
