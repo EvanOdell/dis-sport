@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+dis_sport_data.csv
+GYA.csv
+*.csv
+*.zip
+/rsconnect
+*.dcf
